@@ -1,0 +1,202 @@
+import React, { useState } from 'react';
+
+import leavesLeft from './assets/shop/leaves-left.png';
+import topRight from './assets/shop/top-right.png';
+import leftPouch from './assets/shop/left-pouch.png';
+import shopCenterPouch from './assets/shop/shop-center-pouch.png';
+import shopSceneBase from './assets/shop/shop-scene-base.png';
+import seedTop from './assets/shop/seed-top.png';
+import shopBulkSacks from './assets/shop/shop-bulk-sacks.png';
+
+/* Layout is authored on the mockup's 2576 x 1438 canvas and scales with viewport container-type */
+const W = 2576, H = 1438;
+const pos = (x, y, w, h) => ({
+  left: `${(x / W) * 100}%`,
+  top: `${(y / H) * 100}%`,
+  ...(w ? { width: `${(w / W) * 100}%` } : {}),
+  ...(h ? { height: `${(h / H) * 100}%` } : {}),
+});
+const fs = (px) => `${(px / W) * 100}cqw`;
+
+const SIZES = ['100g', '500g', '1kg'];
+
+/* Text stretched to the exact width used in the mockup */
+function Fit({ x, y, w, size, children, className = '' }) {
+  return (
+    <svg className={`abs ${className}`} style={pos(x, y, w, size * 1.3)} viewBox={`0 0 ${w} ${size * 1.3}`} aria-label={children}>
+      <text x="0" y={size} textLength={w} lengthAdjust="spacingAndGlyphs" fontSize={size}>{children}</text>
+    </svg>
+  );
+}
+
+export default function ChooseCrunchPage() {
+  const [size, setSize] = useState('100g');
+
+
+  return (
+    <div className="pg">
+      <style>{css}</style>
+      <section id="shop" className="stage" aria-label="Choose your natural crunch">
+        {/* Background foliage */}
+        <img className="abs sway" style={pos(0, 500, 290)} src={leavesLeft} alt="" draggable={false} />
+        <img className="abs sway r" style={pos(2280, 170, 296)} src={topRight} alt="" draggable={false} />
+
+        {/* Headline */}
+        <svg className="abs h1" style={pos(165, 200, 1925, 120)} viewBox="0 0 1925 120" role="heading" aria-level="1" aria-label="Choose your natural crunch">
+          <text x="0" y="98" textLength="1925" lengthAdjust="spacingAndGlyphs" fontSize="128">CHOOSE YOUR NATURAL CRUNCH</text>
+        </svg>
+        <p className="abs sub" style={{ ...pos(165, 340, 900), fontSize: fs(40), lineHeight: `${fs(52)}` }}>
+          Premium raw makhana from Bihar, packed with natural goodness.
+        </p>
+
+        {/* Left product */}
+        <img className="abs fl" style={pos(285, 588, 415)} src={leftPouch} alt="Premium raw makhana pouch" draggable={false} />
+        <Fit x={165} y={1008} w={530} size={50} className="ttl">PREMIUM RAW MAKHANA</Fit>
+        <button className="abs soon" disabled style={{ ...pos(285, 1095, 403, 92), fontSize: fs(40) }}>COMING SOON</button>
+        <p className="abs szl" style={{ ...pos(285, 1210, 403), fontSize: fs(36) }}>{SIZES.join(' | ')}</p>
+
+        {/* Pack size selector */}
+        <div className="abs sel" style={{ ...pos(680, 680), fontSize: fs(36) }}>
+          <div>SELECT PACK SIZE:</div>
+          <div className="row">
+            {SIZES.map((s, i) => (
+              <span key={s}>
+                {i > 0 && <i>|</i>}
+                <button
+                  type="button"
+                  className={s === size ? 'on' : ''}
+                  aria-pressed={s === size}
+                  onClick={() => setSize(s)}
+                >
+                  {s}
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+        <div className="abs dash" style={pos(690, 812, 420)} />
+
+        {/* Centre product */}
+        <div
+          className="abs ctr"
+          style={pos(1085, 490, 510)}
+        >
+          <img src={shopCenterPouch} alt="Enjoyeat Makhana Premium Raw" draggable={false} />
+        </div>
+        <img
+          className="abs scene"
+          style={pos(740, 930, 1090)}
+          src={shopSceneBase}
+          alt=""
+          draggable={false}
+        />
+        <img className="abs fl s" style={pos(1392, 408, 66)} src={seedTop} alt="" draggable={false} />
+
+        {/* Right product */}
+        <img className="abs fl slow" style={pos(1735, 565, 675)} src={shopBulkSacks} alt="Bulk makhana pouches and jute sacks" draggable={false} />
+        <Fit x={1740} y={1008} w={640} size={50} className="ttl">BULK &amp; WHOLESALE MAKHANA</Fit>
+        <a className="abs enq" href="#wholesale" style={{ ...pos(1864, 1095, 403, 92), fontSize: fs(40) }}>ENQUIRE NOW</a>
+      </section>
+    </div>
+  );
+}
+
+const css = `
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@500;600&display=swap');
+.pg {
+  --ink: #3d2a1f;
+  --gold: #b8914a;
+  font-family: Inter, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(#f9f4e6, #f1e9d8 45%, #dcc8a2);
+  overflow-x: hidden;
+}
+.pg * { box-sizing: border-box; }
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2576 / 1438;
+  container-type: inline-size;
+  overflow: hidden;
+  user-select: none;
+}
+.abs { position: absolute; margin: 0; }
+img.abs { display: block; height: auto; }
+.h1 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 700;
+  fill: var(--ink);
+  overflow: visible;
+  clip-path: inset(-20% 100% -20% 0);
+  animation: wipe 1.5s .3s cubic-bezier(.7,0,.2,1) forwards;
+}
+.sub { font-weight: 300; animation: fade 1s 1.3s both; }
+.ttl {
+  font-family: 'Inter Tight', Inter, sans-serif;
+  font-weight: 600;
+  fill: var(--ink);
+  overflow: visible;
+  animation: fade 1s 1.5s both;
+}
+.soon, .enq {
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: .25em;
+  color: #fff;
+  font-weight: 400;
+  font-family: Inter, sans-serif;
+  text-decoration: none;
+  animation: fade 1s 1.7s both;
+  transition: transform .25s, box-shadow .25s;
+}
+.soon { background: #665a53; cursor: not-allowed; }
+.enq { background: #7e8458; cursor: pointer; }
+.enq:hover { transform: translateY(-4px); box-shadow: 0 1.2cqw 2cqw #3d2a1f33; }
+.szl { text-align: center; font-weight: 300; white-space: nowrap; animation: fade 1s 1.8s both; }
+.sel { font-weight: 300; line-height: 1.5; animation: fade 1s 1.4s both; }
+.sel .row { white-space: nowrap; }
+.sel i { font-style: normal; margin: 0 .45em; }
+.sel button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0 0 .08em;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: color .3s, border-color .3s;
+}
+.sel button:hover { color: var(--gold); }
+.sel button.on { font-weight: 500; border-color: var(--gold); }
+.dash { border-top: 2px dashed #c9a96a; animation: grow 1s 1.6s both; transform-origin: left; }
+.ctr { animation: rise 1.2s .9s cubic-bezier(.2,.9,.3,1.1) both; transition: transform .25s ease-out; z-index: 2; }
+.ctr img { display: block; width: 100%; animation: swap .6s both; }
+.scene { z-index: 3; }
+.bdg {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: .3em .8em;
+  z-index: 4;
+  animation: stamp .5s both;
+}
+.fl { animation: fade 1.2s 1.2s both; }
+.fl.slow { animation-duration: 1.2s; }
+.fl.s { z-index: 4; animation-duration: 1.2s; }
+.sway { transform-origin: bottom left; }
+
+@keyframes wipe { to { clip-path: inset(-20% -2% -20% 0); } }
+@keyframes fade { from { opacity: 0; transform: translateY(2cqw); } }
+@keyframes rise { from { opacity: 0; margin-top: 6cqw; scale: .9; } }
+@keyframes grow { from { transform: scaleX(0); } }
+
+@keyframes swap { from { opacity: .3; scale: .94; } }
+@keyframes stamp { from { opacity: 0; scale: 2; } }
+
+@media(prefers-reduced-motion: reduce) {
+  .pg * { animation: none !important; transition: none !important; }
+  .h1 { clip-path: none; }
+}
+`;
