@@ -165,18 +165,7 @@ export default function WholesaleSection() {
           </motion.div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="ws-bottom-bar" aria-hidden="true">
-          <div className="ws-scroll-indicator">
-            <div className="ws-pill-icon" />
-            <span>Scroll to Explore</span>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 13, color: '#3A332A', marginBottom: 4 }}>Next Section</div>
-            <div style={{ fontSize: 20, color: '#3A332A' }}>↓</div>
-          </div>
-          <div style={{ width: 120 }} />
-        </div>
+
       </div>
     </section>
   );
@@ -284,25 +273,5 @@ const CSS = `
   font-family: 'Plus Jakarta Sans', Inter, sans-serif;
 }
 .ws-submit-btn:hover { background: #5F6544; transform: translateY(-2px); }
-
-.ws-bottom-bar {
-  margin-top: 20px;
-  padding: 14px 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.ws-scroll-indicator {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: clamp(12px, 1.1vw, 15px);
-  color: #3A332A;
-}
-.ws-pill-icon {
-  width: 22px;
-  height: 36px;
-  border: 1.5px solid #7A6F55;
-  border-radius: 99px;
-}
 `;
+

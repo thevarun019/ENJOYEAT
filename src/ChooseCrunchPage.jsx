@@ -3,9 +3,7 @@ import React, { useState } from 'react';
 import leavesLeft from './assets/shop/leaves-left.png';
 import topRight from './assets/shop/top-right.png';
 import leftPouch from './assets/shop/left-pouch.png';
-import shopCenterPouch from './assets/shop/shop-center-pouch.png';
-import shopSceneBase from './assets/shop/shop-scene-base.png';
-import seedTop from './assets/shop/seed-top.png';
+import shopCenterScene from './assets/shop/shop-center-scene.png';
 import shopBulkSacks from './assets/shop/shop-bulk-sacks.png';
 
 /* Layout is authored on the mockup's 2576 x 1438 canvas and scales with viewport container-type */
@@ -32,7 +30,6 @@ function Fit({ x, y, w, size, children, className = '' }) {
 export default function ChooseCrunchPage() {
   const [size, setSize] = useState('100g');
 
-
   return (
     <div className="pg">
       <style>{css}</style>
@@ -50,52 +47,35 @@ export default function ChooseCrunchPage() {
         </p>
 
         {/* Left product */}
-        <img className="abs fl" style={pos(285, 588, 415)} src={leftPouch} alt="Premium raw makhana pouch" draggable={false} />
-        <Fit x={165} y={1008} w={530} size={50} className="ttl">PREMIUM RAW MAKHANA</Fit>
-        <button className="abs soon" disabled style={{ ...pos(285, 1095, 403, 92), fontSize: fs(40) }}>COMING SOON</button>
-        <p className="abs szl" style={{ ...pos(285, 1210, 403), fontSize: fs(36) }}>{SIZES.join(' | ')}</p>
+        {/* Left product — reduced supporting size, centered at x = 420 */}
+        <img className="abs fl" style={pos(250, 630, 340)} src={leftPouch} alt="Premium raw makhana pouch" draggable={false} />
+        <Fit x={180} y={1010} w={480} size={45} className="ttl">PREMIUM RAW MAKHANA</Fit>
+        <button className="abs soon" disabled style={{ ...pos(250, 1085, 340, 80), fontSize: fs(34) }}>COMING SOON</button>
+        <p className="abs szl" style={{ ...pos(250, 1180, 340), fontSize: fs(32) }}>{SIZES.join(' | ')}</p>
 
-        {/* Pack size selector */}
-        <div className="abs sel" style={{ ...pos(680, 680), fontSize: fs(36) }}>
-          <div>SELECT PACK SIZE:</div>
-          <div className="row">
-            {SIZES.map((s, i) => (
-              <span key={s}>
-                {i > 0 && <i>|</i>}
-                <button
-                  type="button"
-                  className={s === size ? 'on' : ''}
-                  aria-pressed={s === size}
-                  onClick={() => setSize(s)}
-                >
-                  {s}
-                </button>
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="abs dash" style={pos(690, 812, 420)} />
-
-        {/* Centre product */}
+        {/* Centre product — enlarged hero centerpiece centered at canvas midpoint x = 1288 */}
         <div
           className="abs ctr"
-          style={pos(1085, 490, 510)}
+          style={pos(698, 480, 1180)}
         >
-          <img src={shopCenterPouch} alt="Enjoyeat Makhana Premium Raw" draggable={false} />
+          <img
+            src={shopCenterScene}
+            alt="Enjoyeat Makhana Premium Raw"
+            draggable={false}
+            style={{ width: '100%', height: 'auto', display: 'block' }}
+          />
         </div>
+
+        {/* Right product — reduced supporting size, centered at x = 2130 */}
         <img
-          className="abs scene"
-          style={pos(740, 930, 1090)}
-          src={shopSceneBase}
-          alt=""
+          className="abs fl slow"
+          style={pos(1855, 670, 550)}
+          src={shopBulkSacks}
+          alt="Bulk makhana pouches and jute sacks"
           draggable={false}
         />
-        <img className="abs fl s" style={pos(1392, 408, 66)} src={seedTop} alt="" draggable={false} />
-
-        {/* Right product */}
-        <img className="abs fl slow" style={pos(1735, 565, 675)} src={shopBulkSacks} alt="Bulk makhana pouches and jute sacks" draggable={false} />
-        <Fit x={1740} y={1008} w={640} size={50} className="ttl">BULK &amp; WHOLESALE MAKHANA</Fit>
-        <a className="abs enq" href="#wholesale" style={{ ...pos(1864, 1095, 403, 92), fontSize: fs(40) }}>ENQUIRE NOW</a>
+        <Fit x={1850} y={1010} w={560} size={45} className="ttl">BULK &amp; WHOLESALE MAKHANA</Fit>
+        <a className="abs enq" href="#wholesale" style={{ ...pos(1960, 1085, 340, 80), fontSize: fs(34) }}>ENQUIRE NOW</a>
       </section>
     </div>
   );
