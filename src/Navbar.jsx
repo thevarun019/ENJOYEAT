@@ -101,7 +101,7 @@ export default function Navbar() {
             alignItems: 'center',
             gap: 36,
             position: 'absolute',
-            left: '50%',
+            left: '65%',
             transform: 'translateX(-50%)',
           }}
           className="nav-desktop-links"

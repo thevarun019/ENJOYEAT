@@ -33,7 +33,7 @@ const box = (x, y, w, h) => ({
 
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap');
-.ee-wrap { width: 100%; background: #efe8d8; overflow: hidden; }
+.ee-wrap { width: 100%; background: #efe8d8; overflow: hidden; padding-top: 72px; }
 .ee-stage {
   position: relative;
   width: 100%;
