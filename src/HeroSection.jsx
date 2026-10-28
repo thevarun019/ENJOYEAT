@@ -242,7 +242,7 @@ export default function HeroSection() {
 
         {/* Call-to-action buttons */}
         <a
-          href="#our-story"
+          href="#shop"
           className="ee-btn"
           style={{
             ...box(343, 203, 196, 35),

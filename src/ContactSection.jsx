@@ -1,134 +1,261 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import biharMap from './assets/bihar-3d-map.jpg';
+import biharMapClean from './assets/bihar-map-clean.jpg';
+import elM1 from './assets/hero/el_m1.png';
+import elM4 from './assets/hero/el_m4.png';
+import elM7 from './assets/hero/el_m7.png';
+import elBasil from './assets/hero/el_basil.png';
+import elSage from './assets/hero/el_sage.png';
 
-const FONT_SERIF = "'Playfair Display', 'Cormorant Garamond', Georgia, serif";
-const FONT_SANS  = "'Plus Jakarta Sans', Inter, sans-serif";
+const FONT_SERIF = "'Cinzel', 'Playfair Display', 'Cormorant Garamond', Georgia, serif";
+const FONT_SANS  = "'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif";
 
-const CONTACT_ROWS = [
+/* ── 3D Custom Rendered Icons Matching Target Image ── */
+const EnvelopeIcon = () => (
+  <svg width="34" height="34" viewBox="0 0 44 44" fill="none" style={{ filter: 'drop-shadow(0 3px 6px rgba(70,50,25,0.25))' }}>
+    <defs>
+      <linearGradient id="envGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#D8C39F" />
+        <stop offset="50%" stopColor="#BBA075" />
+        <stop offset="100%" stopColor="#967A4F" />
+      </linearGradient>
+      <linearGradient id="envFlap" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop offset="0%" stopColor="#E6D7B9" />
+        <stop offset="100%" stopColor="#BAA076" />
+      </linearGradient>
+      <linearGradient id="envInner" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stopColor="#8C7046" />
+        <stop offset="100%" stopColor="#6E5633" />
+      </linearGradient>
+    </defs>
+    {/* Base Envelope */}
+    <rect x="5" y="11" width="34" height="24" rx="4" fill="url(#envGrad)" />
+    {/* Inner shadow / fold */}
+    <polygon points="5,11 22,24 39,11" fill="url(#envFlap)" opacity="0.95" />
+    <polyline points="5,11 22,24 39,11" stroke="#A68B5E" strokeWidth="0.8" />
+    {/* Side folds */}
+    <polygon points="5,35 18,22 5,14" fill="url(#envInner)" opacity="0.22" />
+    <polygon points="39,35 26,22 39,14" fill="url(#envInner)" opacity="0.22" />
+    {/* Bottom fold */}
+    <polygon points="5,35 22,22 39,35" fill="url(#envGrad)" />
+    <polyline points="5,35 22,22 39,35" stroke="#FFFFFF" strokeWidth="0.6" strokeOpacity="0.4" />
+  </svg>
+);
+
+const PhoneIcon = () => (
+  <svg width="34" height="34" viewBox="0 0 44 44" fill="none" style={{ filter: 'drop-shadow(0 3px 6px rgba(45,60,35,0.28))' }}>
+    <defs>
+      <linearGradient id="phGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#8DA078" />
+        <stop offset="50%" stopColor="#71845C" />
+        <stop offset="100%" stopColor="#51633F" />
+      </linearGradient>
+      <radialGradient id="phShine" cx="35%" cy="30%" r="55%">
+        <stop offset="0%" stopColor="#C8DAB6" stopOpacity="0.75" />
+        <stop offset="60%" stopColor="#71845C" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="22" cy="22" r="16" fill="url(#phGrad)" />
+    <circle cx="22" cy="22" r="16" fill="url(#phShine)" />
+    <circle cx="22" cy="22" r="15.5" stroke="#FFFFFF" strokeOpacity="0.25" strokeWidth="0.8" />
+    {/* White telephone handset */}
+    <path
+      d="M18.2 14.8C17.3 14.8 16 16.1 16 17.5C16 23.3 20.7 28 26.5 28C27.9 28 29.2 26.7 29.2 25.8L27.4 21.8C27 21.3 26.1 21.3 25.7 21.7L24.3 23C22 21.7 20.3 20 19 17.7L20.3 16.3C20.7 15.9 20.7 15 20.2 14.6L18.2 14.8Z"
+      fill="#FFFFFF"
+    />
+  </svg>
+);
+
+const LocationPinIcon = () => (
+  <svg width="34" height="34" viewBox="0 0 44 44" fill="none" style={{ filter: 'drop-shadow(0 3px 6px rgba(70,50,25,0.25))' }}>
+    <defs>
+      <linearGradient id="pinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#D5C09B" />
+        <stop offset="50%" stopColor="#BBA075" />
+        <stop offset="100%" stopColor="#8C6E41" />
+      </linearGradient>
+      <radialGradient id="pinShine" cx="35%" cy="25%" r="50%">
+        <stop offset="0%" stopColor="#F5E8D3" stopOpacity="0.9" />
+        <stop offset="65%" stopColor="#BBA075" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <path
+      d="M22 9C17 9 13 13 13 18C13 24.5 22 34 22 34C22 34 31 24.5 31 18C31 13 27 9 22 9Z"
+      fill="url(#pinGrad)"
+    />
+    <path
+      d="M22 9C17 9 13 13 13 18C13 24.5 22 34 22 34C22 34 31 24.5 31 18C31 13 27 9 22 9Z"
+      fill="url(#pinShine)"
+    />
+    <circle cx="22" cy="18" r="4.2" fill="#FFFFFF" opacity="0.95" />
+  </svg>
+);
+
+/* ── 3D Circular Glossy Social Icons ── */
+const InstagramIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 36 36" style={{ filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.22))' }}>
+    <defs>
+      <radialGradient id="igBg" cx="25%" cy="105%" r="125%">
+        <stop offset="0%" stopColor="#FFDC80" />
+        <stop offset="20%" stopColor="#F77737" />
+        <stop offset="45%" stopColor="#F56040" />
+        <stop offset="60%" stopColor="#FD1D1D" />
+        <stop offset="80%" stopColor="#C13584" />
+        <stop offset="100%" stopColor="#833AB4" />
+      </radialGradient>
+      <radialGradient id="igLight" cx="35%" cy="25%" r="60%">
+        <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.5" />
+        <stop offset="70%" stopColor="#FFFFFF" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="18" cy="18" r="16" fill="url(#igBg)" />
+    <circle cx="18" cy="18" r="16" fill="url(#igLight)" />
+    <circle cx="18" cy="18" r="15.5" stroke="#FFFFFF" strokeOpacity="0.3" strokeWidth="0.8" />
+    <rect x="11.5" y="11.5" width="13" height="13" rx="3.8" stroke="#FFFFFF" strokeWidth="1.6" fill="none" />
+    <circle cx="18" cy="18" r="3.2" stroke="#FFFFFF" strokeWidth="1.6" fill="none" />
+    <circle cx="21.8" cy="14.2" r="0.9" fill="#FFFFFF" />
+  </svg>
+);
+
+const FacebookIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 36 36" style={{ filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.22))' }}>
+    <defs>
+      <linearGradient id="fbBg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#2F8BF8" />
+        <stop offset="100%" stopColor="#1467D2" />
+      </linearGradient>
+      <radialGradient id="fbLight" cx="35%" cy="25%" r="60%">
+        <stop offset="0%" stopColor="#96C6FF" stopOpacity="0.65" />
+        <stop offset="70%" stopColor="#1877F2" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="18" cy="18" r="16" fill="url(#fbBg)" />
+    <circle cx="18" cy="18" r="16" fill="url(#fbLight)" />
+    <circle cx="18" cy="18" r="15.5" stroke="#FFFFFF" strokeOpacity="0.3" strokeWidth="0.8" />
+    <path
+      d="M19.5 26.5V18.8H22.1L22.5 15.8H19.5V13.9C19.5 13 19.8 12.5 21 12.5H22.6V9.8C22.3 9.8 21.3 9.7 20.2 9.7C17.8 9.7 16.2 11.2 16.2 13.7V15.8H13.6V18.8H16.2V26.5H19.5Z"
+      fill="#FFFFFF"
+    />
+  </svg>
+);
+
+const YouTubeIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 36 36" style={{ filter: 'drop-shadow(0 2px 5px rgba(0,0,0,0.22))' }}>
+    <defs>
+      <linearGradient id="ytBg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stopColor="#F63333" />
+        <stop offset="100%" stopColor="#CC0E0E" />
+      </linearGradient>
+      <radialGradient id="ytLight" cx="35%" cy="25%" r="60%">
+        <stop offset="0%" stopColor="#FFA6A6" stopOpacity="0.6" />
+        <stop offset="70%" stopColor="#CC0E0E" stopOpacity="0" />
+      </radialGradient>
+    </defs>
+    <circle cx="18" cy="18" r="16" fill="url(#ytBg)" />
+    <circle cx="18" cy="18" r="16" fill="url(#ytLight)" />
+    <circle cx="18" cy="18" r="15.5" stroke="#FFFFFF" strokeOpacity="0.3" strokeWidth="0.8" />
+    <polygon points="15.5,13 23,18 15.5,23" fill="#FFFFFF" />
+  </svg>
+);
+
+const CONTACT_ITEMS = [
   {
     label: 'Email',
     value: 'info@enjoyeat.com',
     href: 'mailto:info@enjoyeat.com',
-    icon: '✉️',
+    icon: <EnvelopeIcon />,
   },
   {
     label: 'Phone / WhatsApp',
     value: '+91 XXXXXXXXXX',
     href: 'https://wa.me/91XXXXXXXXXX',
-    icon: '📞',
+    icon: <PhoneIcon />,
   },
   {
     label: 'Address',
     value: 'Sitamarhi, Bihar, India',
     href: null,
-    icon: '📍',
+    icon: <LocationPinIcon />,
   },
 ];
 
-const SOCIAL = [
-  { name: 'Instagram', icon: '📸', color: '#E1306C', href: '#' },
-  { name: 'Facebook',  icon: '📘', color: '#1877F2', href: '#' },
-  { name: 'YouTube',   icon: '▶️',  color: '#FF0000', href: '#' },
-];
-
 export default function ContactSection() {
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-
   return (
     <section
       id="contact"
       aria-label="Get in Touch"
-      style={{
-        fontFamily: FONT_SANS,
-        background: 'radial-gradient(circle at 50% 40%, #FBF8F1 0%, #E9DFC7 100%)',
-        minHeight: '100vh',
-        width: '100%',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-        padding: '88px 0 0',
-      }}
+      className="ct-section"
     >
       <style>{CSS}</style>
 
-      {/* Scattered decorative makhana */}
-      <img src={new URL('./assets/hero/el_m1.png', import.meta.url).href} alt="" aria-hidden className="ct-deco ct-deco--m1" />
-      <img src={new URL('./assets/hero/el_m4.png', import.meta.url).href} alt="" aria-hidden className="ct-deco ct-deco--m2" />
-      <img src={new URL('./assets/hero/el_m7.png', import.meta.url).href} alt="" aria-hidden className="ct-deco ct-deco--m3" />
-      <img src={new URL('./assets/hero/el_basil.png', import.meta.url).href} alt="" aria-hidden className="ct-deco ct-deco--leaf1" />
-      <img src={new URL('./assets/hero/el_sage.png', import.meta.url).href} alt="" aria-hidden className="ct-deco ct-deco--leaf2" />
+      {/* Scattered decorative roasted makhana & leaves */}
+      <img src={elM1} alt="" aria-hidden className="ct-deco ct-deco--m1" />
+      <img src={elM4} alt="" aria-hidden className="ct-deco ct-deco--m2" />
+      <img src={elM7} alt="" aria-hidden className="ct-deco ct-deco--m3" />
+      <img src={elM4} alt="" aria-hidden className="ct-deco ct-deco--m4" />
+      <img src={elM1} alt="" aria-hidden className="ct-deco ct-deco--m5" />
+      <img src={elM7} alt="" aria-hidden className="ct-deco ct-deco--m6" />
+
+      <img src={elBasil} alt="" aria-hidden className="ct-deco ct-deco--leaf-top" />
+      <img src={elSage}  alt="" aria-hidden className="ct-deco ct-deco--leaf-map-l" />
+      <img src={elBasil} alt="" aria-hidden className="ct-deco ct-deco--leaf-map-r" />
+      <img src={elSage}  alt="" aria-hidden className="ct-deco ct-deco--leaf-bot-r" />
+      <img src={elBasil} alt="" aria-hidden className="ct-deco ct-deco--leaf-bot-l" />
+
+      {/* Powder dusting top-right overlay */}
+      <div className="ct-dust" aria-hidden="true" />
 
       <div className="ct-inner">
-        <div className="ct-layout">
-          {/* ── LEFT: heading + contact card ── */}
+        <div className="ct-grid">
+
+          {/* ── LEFT: Title, Subtitle, Contact Card ── */}
           <motion.div
             className="ct-left"
-            initial={{ x: -140, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.75, ease: 'easeOut' }}
+            transition={{ duration: 0.65, ease: 'easeOut' }}
           >
-            <h1
-              style={{
-                fontFamily: FONT_SERIF,
-                fontSize: 'clamp(30px, 4vw, 58px)',
-                fontWeight: 700,
-                color: '#2A1E17',
-                textTransform: 'uppercase',
-                letterSpacing: '0.03em',
-                lineHeight: 1.08,
-                margin: 0,
-              }}
-            >
-              Get in Touch
+            <h1 className="ct-title">
+              GET IN TOUCH
             </h1>
-            <p
-              style={{
-                fontSize: 'clamp(13px, 1.1vw, 17px)',
-                color: '#3B3026',
-                maxWidth: 400,
-                marginTop: 10,
-                lineHeight: 1.65,
-              }}
-            >
+            <p className="ct-subtitle">
               Have questions about our products or want to say hello? Reach out to us.
             </p>
 
             {/* Contact Card */}
             <div className="ct-card">
-              {CONTACT_ROWS.map((row) => (
-                <div key={row.label} className="ct-row">
-                  <div>
-                    <div className="ct-row-label">{row.label}</div>
-                    {row.href ? (
-                      <a href={row.href} className="ct-row-value ct-link">{row.value}</a>
+              {CONTACT_ITEMS.map((item) => (
+                <div key={item.label} className="ct-card-row">
+                  <div className="ct-row-info">
+                    <span className="ct-label">{item.label}</span>
+                    {item.href ? (
+                      <a href={item.href} className="ct-val ct-val-link">
+                        {item.value}
+                      </a>
                     ) : (
-                      <div className="ct-row-value">{row.value}</div>
+                      <span className="ct-val">{item.value}</span>
                     )}
                   </div>
-                  <div className="ct-row-icon">{row.icon}</div>
+                  <div className="ct-icon-wrap">
+                    {item.icon}
+                  </div>
                 </div>
               ))}
 
-              {/* Follow Us */}
-              <div className="ct-social-row">
-                <div className="ct-row-label" style={{ fontWeight: 700, fontSize: '1em', color: '#1E1914' }}>
-                  Follow Us
-                </div>
-                <div className="ct-social-pill">
-                  {SOCIAL.map((s) => (
-                    <a
-                      key={s.name}
-                      href={s.href}
-                      aria-label={s.name}
-                      className="ct-social-icon"
-                      title={s.name}
-                    >
-                      <span style={{ fontSize: 'clamp(22px, 2.2vw, 30px)' }}>{s.icon}</span>
-                    </a>
-                  ))}
+              {/* Follow Us Bar */}
+              <div className="ct-follow-row">
+                <span className="ct-follow-label">Follow Us</span>
+                <div className="ct-social-tray">
+                  <a href="#" className="ct-social-btn" aria-label="Instagram">
+                    <InstagramIcon />
+                  </a>
+                  <a href="#" className="ct-social-btn" aria-label="Facebook">
+                    <FacebookIcon />
+                  </a>
+                  <a href="#" className="ct-social-btn" aria-label="YouTube">
+                    <YouTubeIcon />
+                  </a>
                 </div>
               </div>
             </div>
@@ -137,47 +264,51 @@ export default function ContactSection() {
           {/* ── RIGHT: 3D Bihar Map ── */}
           <motion.div
             className="ct-right"
-            initial={{ y: 150, scale: 0.82, opacity: 0 }}
-            whileInView={{ y: 0, scale: 1, opacity: 1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ type: 'spring', stiffness: 75, damping: 14 }}
+            transition={{ duration: 0.75, ease: 'easeOut' }}
           >
-            {/* Sitamarhi label (visual overlay, already on the map image) */}
-            <div className="ct-sitamarhi-label">
-              <span>Sitamarhi</span>
-              <div className="ct-pin-pulse">📍</div>
+            <div className="ct-map-container">
+              {/* Sitamarhi Badge & Pin */}
+              <div className="ct-sitamarhi-badge-wrap">
+                {/* Glowing drop pin */}
+                <div className="ct-sitamarhi-pin">
+                  <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                    <defs>
+                      <radialGradient id="glowG" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#FFDF9E" stopOpacity="0.8" />
+                        <stop offset="100%" stopColor="#FFDF9E" stopOpacity="0" />
+                      </radialGradient>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+
+              {/* Clean 3D Map Image without 'STATE OF BIHAR' text */}
+              <img
+                src={biharMapClean}
+                alt="3D map of Bihar highlighting Sitamarhi district"
+                className="ct-map-graphic"
+                draggable={false}
+              />
             </div>
-            <img
-              src={biharMap}
-              alt="3D map of Bihar state with Sitamarhi highlighted"
-              className="ct-map-img"
-              draggable={false}
-            />
           </motion.div>
+
         </div>
       </div>
 
       {/* ── Footer ── */}
       <footer className="ct-footer">
-        <span className="ct-footer-copy">
+        <span className="ct-footer-left">
           © 2026 ENJOYEAT FOOD PRIVATE LIMITED. All Rights Reserved.
         </span>
 
-        {/* Back to Top center button */}
-        <button
-          onClick={scrollToTop}
-          className="ct-back-top"
-          aria-label="Back to top"
-        >
-          <span>Back to Top</span>
-          <span style={{ fontSize: 18 }}>↑</span>
-        </button>
-
-        <div className="ct-footer-links">
+        <div className="ct-footer-right">
           <a href="#" className="ct-footer-link">Privacy Policy</a>
-          <span className="ct-footer-sep">|</span>
+          <span className="ct-footer-dot">|</span>
           <a href="#" className="ct-footer-link">Terms &amp; Conditions</a>
-          <span className="ct-footer-sep">|</span>
+          <span className="ct-footer-dot">|</span>
           <a href="#" className="ct-footer-link">Shipping &amp; Refund Policy</a>
         </div>
       </footer>
@@ -186,197 +317,296 @@ export default function ContactSection() {
 }
 
 const CSS = `
+.ct-section {
+  font-family: ${FONT_SANS};
+  background: radial-gradient(ellipse at 50% 35%, #FAF7F0 0%, #F4ECE0 55%, #E8DCC8 100%);
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding-top: 50px;
+}
+
+/* Scattered floating roasted makhana */
 .ct-deco {
   position: absolute;
   pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+.ct-deco--m1 { top: 18%; right: 11%; width: clamp(24px, 2.2vw, 36px); opacity: 0.85; filter: drop-shadow(0 4px 8px rgba(50,35,20,0.18)); }
+.ct-deco--m2 { top: 22%; right: 4.5%; width: clamp(20px, 1.8vw, 28px); opacity: 0.8; filter: drop-shadow(0 4px 6px rgba(50,35,20,0.18)); }
+.ct-deco--m3 { top: 31%; right: 7%; width: clamp(22px, 2vw, 30px); opacity: 0.75; filter: drop-shadow(0 4px 6px rgba(50,35,20,0.18)); }
+.ct-deco--m4 { bottom: 25%; right: 23%; width: clamp(22px, 2vw, 32px); opacity: 0.8; filter: drop-shadow(0 4px 8px rgba(50,35,20,0.18)); }
+.ct-deco--m5 { bottom: 33%; left: 48%; width: clamp(24px, 2.2vw, 34px); opacity: 0.8; filter: drop-shadow(0 4px 8px rgba(50,35,20,0.18)); }
+.ct-deco--m6 { bottom: 42%; left: 1.5%; width: clamp(20px, 1.8vw, 28px); opacity: 0.75; filter: drop-shadow(0 4px 6px rgba(50,35,20,0.18)); }
+
+/* Leaves */
+.ct-deco--leaf-top   { top: 24%; right: 14%; width: clamp(38px, 3.2vw, 54px); opacity: 0.8; transform: rotate(38deg); filter: drop-shadow(0 4px 10px rgba(40,50,30,0.2)); }
+.ct-deco--leaf-map-l { top: 37%; left: 49%; width: clamp(36px, 3.2vw, 50px); opacity: 0.82; transform: rotate(-45deg); filter: drop-shadow(0 4px 8px rgba(40,50,30,0.2)); }
+.ct-deco--leaf-map-r { bottom: 34%; right: 8%; width: clamp(38px, 3.2vw, 54px); opacity: 0.8; transform: rotate(30deg); filter: drop-shadow(0 4px 8px rgba(40,50,30,0.2)); }
+.ct-deco--leaf-bot-l { bottom: 18%; left: 1.5%; width: clamp(42px, 3.5vw, 60px); opacity: 0.75; transform: rotate(45deg); filter: drop-shadow(0 4px 8px rgba(40,50,30,0.2)); }
+
+/* Dust particles top right */
+.ct-dust {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 260px;
+  height: 280px;
+  pointer-events: none;
+  background: radial-gradient(circle at 85% 25%, rgba(160, 120, 70, 0.15) 0%, rgba(160, 120, 70, 0.05) 50%, transparent 80%);
   z-index: 0;
 }
-.ct-deco--m1  { top: 12%; right: 2%;   width: clamp(22px,2.5vw,36px); opacity: 0.65; }
-.ct-deco--m2  { top: 30%; right: 5%;   width: clamp(18px,2vw,28px);   opacity: 0.55; }
-.ct-deco--m3  { bottom: 18%; right: 3%; width: clamp(20px,2.2vw,30px); opacity: 0.5; }
-.ct-deco--leaf1 { left: -20px; bottom: 15%; width: clamp(60px,5vw,80px); opacity: 0.4; transform: rotate(20deg); }
-.ct-deco--leaf2 { left: 2%;   bottom: 8%;  width: clamp(50px,4vw,70px); opacity: 0.4; transform: rotate(-15deg); }
 
 .ct-inner {
   position: relative;
-  z-index: 1;
-  max-width: 1400px;
+  z-index: 2;
+  max-width: 1340px;
   width: 100%;
   margin: 0 auto;
-  padding: 24px 48px 16px;
-  flex: 1;
+  padding: 30px 48px 40px;
+  box-sizing: border-box;
 }
-.ct-layout {
+
+.ct-grid {
   display: grid;
-  grid-template-columns: 42% 1fr;
-  gap: 40px;
-  align-items: start;
+  grid-template-columns: 410px 1fr;
+  gap: 50px;
+  align-items: center;
 }
+
+/* ── Left Column ── */
 .ct-left {
   display: flex;
   flex-direction: column;
-  gap: 0;
 }
+
+.ct-title {
+  font-family: ${FONT_SERIF};
+  font-size: clamp(34px, 3.4vw, 50px);
+  font-weight: 700;
+  color: #2D2016;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  margin: 0 0 12px;
+}
+
+.ct-subtitle {
+  font-size: clamp(14px, 1.05vw, 15.5px);
+  color: #55483D;
+  margin: 0 0 26px;
+  line-height: 1.5;
+  max-width: 380px;
+  font-weight: 400;
+}
+
+/* ── Contact Card ── */
 .ct-card {
-  margin-top: 24px;
-  background: rgba(243,237,224,0.92);
-  border-radius: 18px;
-  padding: clamp(18px,2vw,28px);
-  box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-  border: 1px solid rgba(255,255,255,0.8);
-  max-width: 440px;
+  width: 100%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  padding: 22px 24px;
+  box-shadow: 0 16px 36px rgba(50, 35, 15, 0.06), 0 2px 6px rgba(50, 35, 15, 0.03);
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 14px;
 }
-.ct-row {
+
+.ct-card-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(184,160,114,0.25);
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(215, 200, 175, 0.35);
 }
-.ct-row:last-of-type { border-bottom: none; }
-.ct-row-label {
-  font-size: clamp(12px,1vw,15px);
+
+.ct-row-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ct-label {
+  font-size: 13px;
   font-weight: 600;
-  color: #1E1914;
-  margin-bottom: 2px;
+  color: #7D7164;
+  letter-spacing: 0.01em;
 }
-.ct-row-value {
-  font-size: clamp(12px,1vw,15px);
-  color: #2A241E;
+
+.ct-val {
+  font-size: 15px;
+  font-weight: 700;
+  color: #241A13;
 }
-.ct-link {
-  color: #2A241E;
+
+.ct-val-link {
   text-decoration: none;
   transition: color 0.2s;
 }
-.ct-link:hover { color: #9E7B42; text-decoration: underline; }
-.ct-row-icon {
-  font-size: clamp(22px,2.2vw,30px);
-  flex-shrink: 0;
-  margin-left: 12px;
+.ct-val-link:hover {
+  color: #9C7D4A;
 }
-.ct-social-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 14px;
-}
-.ct-social-pill {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #CDBB99;
-  padding: 8px 18px;
-  border-radius: 999px;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.12);
-}
-.ct-social-icon {
+
+.ct-icon-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  transition: transform 0.2s;
-  text-decoration: none;
+  flex-shrink: 0;
 }
-.ct-social-icon:hover { transform: scale(1.18); }
 
-.ct-right {
-  position: relative;
-  padding-top: 20px;
+/* Follow Us bar */
+.ct-follow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
 }
-.ct-sitamarhi-label {
+
+.ct-follow-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: #241A13;
+}
+
+.ct-social-tray {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #D1BE9C;
+  padding: 6px 14px;
+  border-radius: 999px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.14), 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.ct-social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.ct-social-btn:hover {
+  transform: scale(1.15) translateY(-2px);
+}
+
+/* ── Right Column: 3D Map ── */
+.ct-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.ct-map-container {
+  position: relative;
+  width: 100%;
+  max-width: 780px;
+}
+
+.ct-map-graphic {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  filter: drop-shadow(0 25px 35px rgba(50, 35, 15, 0.22));
+}
+
+/* Sitamarhi Badge & Pin Overlay */
+.ct-sitamarhi-badge-wrap {
   position: absolute;
-  top: 10%;
-  left: 48%;
-  z-index: 5;
+  top: 24%;
+  left: 49%;
+  transform: translate(-50%, -100%);
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
   pointer-events: none;
 }
-.ct-sitamarhi-label span {
-  background: #7C7958;
-  color: #fff;
-  font-size: clamp(10px,1vw,14px);
-  font-weight: 600;
-  padding: 3px 12px;
-  border-radius: 8px;
-  border: 1.5px solid #fff;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-  letter-spacing: 0.03em;
+
+.ct-sitamarhi-pin {
+  margin-top: -2px;
+  animation: pinBounce 2.4s ease-in-out infinite;
 }
-.ct-pin-pulse {
-  font-size: clamp(16px,1.5vw,22px);
-  animation: pin-pulse 2s ease-in-out infinite;
-}
-@keyframes pin-pulse {
+
+@keyframes pinBounce {
   0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-5px); }
-}
-.ct-map-img {
-  width: 100%;
-  border-radius: 16px;
-  object-fit: contain;
-  filter: drop-shadow(0 35px 30px rgba(0,0,0,0.2));
+  50%      { transform: translateY(-3px); }
 }
 
 /* ── Footer ── */
 .ct-footer {
   position: relative;
   width: 100%;
-  background: #2D1E17;
-  padding: 0 64px;
-  height: 56px;
+  background: #251912;
+  padding: 0 48px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: auto;
-  z-index: 10;
+  margin-top: 30px;
+  box-sizing: border-box;
+  z-index: 20;
 }
-.ct-footer-copy {
-  color: #E5DEC9;
-  font-size: clamp(10px,0.85vw,13px);
+
+.ct-footer-left {
+  color: #E2D7C2;
+  font-size: clamp(10px, 0.8vw, 12.5px);
+  font-weight: 400;
 }
-.ct-back-top {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 10px;
-  background: #EFE9DC;
-  color: #2A1E17;
-  font-size: clamp(11px,1vw,14px);
-  font-weight: 700;
-  padding: 8px 22px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.14);
-  border: none;
-  cursor: pointer;
+
+.ct-footer-right {
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: background 0.2s, transform 0.15s;
-  font-family: 'Plus Jakarta Sans', Inter, sans-serif;
+  gap: 10px;
 }
-.ct-back-top:hover { background: #fff; transform: translateX(-50%) translateY(-2px); }
-.ct-footer-links {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+
 .ct-footer-link {
-  color: #E5DEC9;
-  font-size: clamp(10px,0.85vw,13px);
+  color: #E2D7C2;
+  font-size: clamp(10px, 0.8vw, 12.5px);
   text-decoration: none;
   transition: color 0.2s;
+  font-weight: 400;
 }
-.ct-footer-link:hover { color: #cfa95e; }
-.ct-footer-sep {
-  color: #E5DEC9;
-  opacity: 0.45;
-  font-size: 12px;
+.ct-footer-link:hover {
+  color: #CFAC68;
+}
+
+.ct-footer-dot {
+  color: #E2D7C2;
+  opacity: 0.4;
+  font-size: 11px;
+}
+
+@media (max-width: 1080px) {
+  .ct-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .ct-left {
+    align-items: center;
+    text-align: center;
+  }
+  .ct-subtitle {
+    max-width: 100%;
+  }
+  .ct-footer {
+    height: auto;
+    padding: 24px 20px 16px;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
 }
 `;
