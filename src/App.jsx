@@ -1,6 +1,8 @@
 import React from 'react';
 import Navbar from './Navbar';
-import HeroToStoryTransition from './HeroToStoryTransition';
+import SectionTransition from './components/SectionTransition';
+import HeroSection from './HeroSection';
+import EnjoyeatStory from './EnjoyeatStory';
 import ChooseCrunchPage from './ChooseCrunchPage';
 import BenefitsSection from './BenefitsSection';
 import WholesaleSection from './WholesaleSection';
@@ -15,8 +17,14 @@ export default function App() {
 
       {/* Main Pages */}
       <main className="w-full overflow-x-hidden">
-        {/* Spatial Shift: Page 1 (Hero) -> Page 2 (Story) */}
-        <HeroToStoryTransition />
+        {/* Continuous Section Transition: Page 1 (Hero) -> Page 2 (Our Story) */}
+        <SectionTransition>
+          {/* Page 1: Hero */}
+          <HeroSection />
+
+          {/* Page 2: Our Roots in Bihar (Story) */}
+          <EnjoyeatStory />
+        </SectionTransition>
 
         {/* Page 3: Choose Your Natural Crunch (Shop) */}
         <ChooseCrunchPage />
