@@ -19,9 +19,9 @@ const box = (x, y, w, h) => ({
 
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600;700&display=swap');
-.es-wrap{width:100%;background:#f4efe3;overflow:hidden}
+.es-wrap{width:100%;background:#EFE7D6;overflow:hidden}
 .es-stage{position:relative;width:100%;aspect-ratio:1024/572;container-type:inline-size;overflow:hidden;
-  background:radial-gradient(ellipse at 40% 40%,#f7f3e8 0%,#f3eee1 70%,#eee8d9 100%);
+  background:#EFE7D6;
   font-family:'Inter',system-ui,sans-serif;color:#3b2c20;user-select:none}
 .es-serif{font-family:'Cormorant Garamond',Georgia,serif}
 .es-link{position:absolute;white-space:nowrap;cursor:pointer;transition:color .2s}
@@ -30,7 +30,8 @@ const CSS = `
   -webkit-mask-image:linear-gradient(to right,transparent 0,#000 12%),linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%);
   -webkit-mask-composite:source-in;
   mask-image:linear-gradient(to right,transparent 0,#000 12%),linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%);
-  mask-composite:intersect}
+  mask-composite:intersect;
+  mix-blend-mode:multiply}
 .es-card{position:absolute;text-align:center;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
 .es-card:hover{transform:translateY(-.6cqw)}
 .es-card:hover .es-thumb{box-shadow:0 1.2cqw 2cqw rgba(90,65,30,.28)}
@@ -48,8 +49,6 @@ const CARDS = [
   { x: 438, img: direct, label: "DIRECT TO YOU", title: ["DIRECT TO YOU"], text: "Packed with care and delivered fresh nationwide." },
 ];
 const W = 160;
-
-
 
 export default function EnjoyeatStory() {
   const [active, setActive] = useState(0);
@@ -70,7 +69,6 @@ export default function EnjoyeatStory() {
         <img className="es-float" src={m6} alt="" style={{ ...box(14, 332, 24, 24), animationDelay: ".4s" }} />
         <img className="es-float" src={m5} alt="" style={{ ...box(398, 508, 18, 18), animationDelay: "1.2s" }} />
         <img className="es-float" src={sage} alt="" style={{ ...box(10, 456, 52, 40), animationDelay: ".8s", transform: "rotate(25deg)" }} />
-
 
         {/* heading */}
         <h1 className="es-serif" style={{ position: "absolute", left: u(64), top: u(102), margin: 0, fontSize: u(45), fontWeight: 600, letterSpacing: ".005em", lineHeight: 1.1, color: "#2b2019" }}>
@@ -96,7 +94,6 @@ export default function EnjoyeatStory() {
             <div style={{ marginTop: u(5), fontSize: u(11.6), lineHeight: u(16), color: "#4d3d30", opacity: active === i ? 1 : .92 }}>{c.text}</div>
           </div>
         ))}
-
 
       </section>
     </div>

@@ -283,7 +283,9 @@ export default function ContactSection() {
               height: '100%',
               objectFit: 'contain',
               userSelect: 'none',
-              filter: 'drop-shadow(0 20px 30px rgba(50, 35, 15, 0.2))',
+              mixBlendMode: 'multiply',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+              maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
             }}
           />
         </motion.div>
@@ -321,7 +323,7 @@ export default function ContactSection() {
 const CSS = `
 .ct-wrap {
   width: 100%;
-  background: radial-gradient(ellipse at 50% 35%, #FAF7F0 0%, #F4ECE0 55%, #E8DCC8 100%);
+  background: #EFE7D6;
   overflow: hidden;
 }
 .ct-stage {

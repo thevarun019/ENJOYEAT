@@ -54,7 +54,7 @@ export default function WholesaleSection() {
         <img src={elM1} alt="" aria-hidden style={{ ...box(18, 120, 26, 26), pointerEvents: 'none', zIndex: 0 }} />
         <img src={elM2} alt="" aria-hidden style={{ ...box(470, 160, 24, 24), pointerEvents: 'none', zIndex: 0 }} />
         <img src={elM3} alt="" aria-hidden style={{ ...box(490, 480, 25, 25), pointerEvents: 'none', zIndex: 0 }} />
-        <img src={topRight} alt="" aria-hidden style={{ ...box(890, 10, 140, 140), pointerEvents: 'none', opacity: 0.75, zIndex: 0 }} />
+        {/* Rectangular corner topRight foliage crop removed */}
 
         {/* ── LEFT: Title, Subtitle, Pallet Image with Staggered Badges ── */}
         <motion.div
@@ -92,7 +92,7 @@ export default function WholesaleSection() {
           </p>
         </motion.div>
 
-        {/* Pallet image */}
+        {/* Pallet image with multiply blend and edge feathering */}
         <motion.div
           style={{ ...box(54, 185, 420, 320), zIndex: 1 }}
           initial={{ opacity: 0, scale: 0.96 }}
@@ -107,9 +107,10 @@ export default function WholesaleSection() {
             style={{
               width: '100%',
               height: '100%',
-              objectFit: 'cover',
-              borderRadius: u(16),
-              boxShadow: '0 12px 35px rgba(0,0,0,0.12)',
+              objectFit: 'contain',
+              mixBlendMode: 'multiply',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+              maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
             }}
           />
         </motion.div>
@@ -249,7 +250,7 @@ export default function WholesaleSection() {
 const CSS = `
 .ws-wrap {
   width: 100%;
-  background: radial-gradient(circle at 50% 40%, #FBF8F1 0%, #E9DFC7 100%);
+  background: #EFE7D6;
   overflow: hidden;
 }
 .ws-stage {
@@ -259,5 +260,10 @@ const CSS = `
   container-type: inline-size;
   overflow: hidden;
   user-select: none;
+}
+@media (max-width: 768px) {
+  .ws-wrap {
+    overflow: visible;
+  }
 }
 `;

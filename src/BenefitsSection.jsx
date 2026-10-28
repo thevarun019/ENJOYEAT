@@ -27,20 +27,7 @@ export default function BenefitsSection() {
       <style>{CSS}</style>
       <section id="benefits" className="bn-stage" aria-label="The Goodness of Sattvik Makhana">
         {/* Background Foliage */}
-        <img
-          src={leavesLeft}
-          alt=""
-          aria-hidden
-          draggable={false}
-          style={{ ...box(-30, 340, 180, 220), pointerEvents: 'none', opacity: 0.65, zIndex: 0 }}
-        />
-        <img
-          src={topRight}
-          alt=""
-          aria-hidden
-          draggable={false}
-          style={{ ...box(870, 20, 160, 160), pointerEvents: 'none', opacity: 0.85, zIndex: 0 }}
-        />
+        {/* Rectangular corner foliage removed to prevent square box borders */}
 
         {/* Section Header */}
         <motion.div
@@ -130,7 +117,14 @@ export default function BenefitsSection() {
             src={centerPouchStage}
             alt="Enjoyeat Sattvik Makhana Gourmet Fox Nuts"
             draggable={false}
-            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              mixBlendMode: 'multiply',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+              maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+            }}
           />
         </motion.div>
 
@@ -179,7 +173,7 @@ export default function BenefitsSection() {
 const CSS = `
 .bn-wrap {
   width: 100%;
-  background: radial-gradient(ellipse at 50% 36%, #FAF6EE 0%, #F3EBDB 50%, #E5D7BC 100%);
+  background: #EFE7D6;
   overflow: hidden;
 }
 .bn-stage {

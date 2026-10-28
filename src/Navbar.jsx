@@ -136,30 +136,26 @@ export default function Navbar() {
         </div>
 
         {/* ── Right: CTA + mobile toggle ── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           <a
             href="#shop"
             id="nav-shop-btn"
             onClick={(e) => handleNav(e, '#shop')}
+            className="px-3 py-1.5 text-[11px] md:px-6 md:py-2.5 md:text-sm font-semibold rounded-md whitespace-nowrap"
             style={{
               background: 'linear-gradient(135deg, #c9a55a, #8C6D3B)',
               color: '#fff',
-              fontSize: 13,
-              fontWeight: 700,
               letterSpacing: '0.07em',
               textTransform: 'uppercase',
-              padding: '10px 22px',
-              borderRadius: 6,
               textDecoration: 'none',
               boxShadow: '0 3px 12px rgba(140,109,59,0.3)',
               transition: 'opacity 0.2s, transform 0.15s',
               fontFamily: "'Plus Jakarta Sans', Inter, sans-serif",
-              whiteSpace: 'nowrap',
             }}
             onMouseEnter={(e) => { e.target.style.opacity = '0.88'; e.target.style.transform = 'translateY(-1px)'; }}
             onMouseLeave={(e) => { e.target.style.opacity = '1'; e.target.style.transform = 'none'; }}
           >
-            SHOP NOW
+            ENQUIRE NOW
           </a>
 
           {/* Mobile hamburger */}

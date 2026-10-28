@@ -35,8 +35,7 @@ export default function ChooseCrunchPage() {
       <style>{css}</style>
       <section id="shop" className="stage" aria-label="Choose your natural crunch">
         {/* Background foliage */}
-        <img className="abs sway" style={pos(0, 500, 290)} src={leavesLeft} alt="" draggable={false} />
-        <img className="abs sway r" style={pos(2280, 170, 296)} src={topRight} alt="" draggable={false} />
+        {/* Corner leaf crops removed to eliminate visible rectangle boxes */}
 
         {/* Headline */}
         <svg className="abs h1" style={pos(165, 200, 1925, 120)} viewBox="0 0 1925 120" role="heading" aria-level="1" aria-label="Choose your natural crunch">
@@ -48,7 +47,13 @@ export default function ChooseCrunchPage() {
 
         {/* Left product */}
         {/* Left product — reduced supporting size, centered at x = 420 */}
-        <img className="abs fl" style={pos(250, 630, 340)} src={leftPouch} alt="Premium raw makhana pouch" draggable={false} />
+        <img
+          className="abs fl drop-shadow-[0_20px_25px_rgba(0,0,0,0.25)]"
+          style={pos(250, 630, 340)}
+          src={leftPouch}
+          alt="Premium raw makhana pouch"
+          draggable={false}
+        />
         <Fit x={180} y={1010} w={480} size={45} className="ttl">PREMIUM RAW MAKHANA</Fit>
         <button className="abs soon" disabled style={{ ...pos(250, 1085, 340, 80), fontSize: fs(34) }}>COMING SOON</button>
         <p className="abs szl" style={{ ...pos(250, 1180, 340), fontSize: fs(32) }}>{SIZES.join(' | ')}</p>
@@ -62,14 +67,26 @@ export default function ChooseCrunchPage() {
             src={shopCenterScene}
             alt="Enjoyeat Makhana Premium Raw"
             draggable={false}
-            style={{ width: '100%', height: 'auto', display: 'block' }}
+            style={{
+              width: '100%',
+              height: 'auto',
+              display: 'block',
+              mixBlendMode: 'multiply',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+              maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+            }}
           />
         </div>
 
         {/* Right product — reduced supporting size, centered at x = 2130 */}
         <img
           className="abs fl slow"
-          style={pos(1855, 670, 550)}
+          style={{
+            ...pos(1855, 670, 550),
+            mixBlendMode: 'multiply',
+            WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+            maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+          }}
           src={shopBulkSacks}
           alt="Bulk makhana pouches and jute sacks"
           draggable={false}
@@ -88,7 +105,7 @@ const css = `
   --gold: #b8914a;
   font-family: Inter, sans-serif;
   color: var(--ink);
-  background: linear-gradient(#f9f4e6, #f1e9d8 45%, #dcc8a2);
+  background: #EFE7D6;
   overflow-x: hidden;
 }
 .pg * { box-sizing: border-box; }
