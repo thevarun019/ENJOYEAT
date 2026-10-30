@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from './Navbar';
-import SectionTransition from './components/SectionTransition';
 import HeroSection from './HeroSection';
 import EnjoyeatStory from './EnjoyeatStory';
 import ChooseCrunchPage from './ChooseCrunchPage';
