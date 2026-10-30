@@ -4,6 +4,7 @@ import SectionTransition from './components/SectionTransition';
 import HeroSection from './HeroSection';
 import EnjoyeatStory from './EnjoyeatStory';
 import ChooseCrunchPage from './ChooseCrunchPage';
+import StoryToShopBurstWrapper from './components/StoryToShopBurstWrapper';
 import BenefitsSection from './BenefitsSection';
 import WholesaleSection from './WholesaleSection';
 import ContactSection from './ContactSection';
@@ -17,17 +18,14 @@ export default function App() {
 
       {/* Main Pages */}
       <main className="w-full overflow-x-hidden">
-        {/* Continuous Section Transition: Page 1 (Hero) -> Page 2 (Our Story) */}
-        <SectionTransition>
-          {/* Page 1: Hero */}
-          <HeroSection />
+        {/* Page 1: Hero */}
+        <HeroSection />
 
-          {/* Page 2: Our Roots in Bihar (Story) */}
+        {/* Transition Container: Page 2 (Story) + Page 3 (Shop) with Popcorn Burst */}
+        <StoryToShopBurstWrapper>
           <EnjoyeatStory />
-        </SectionTransition>
-
-        {/* Page 3: Choose Your Natural Crunch (Shop) */}
-        <ChooseCrunchPage />
+          <ChooseCrunchPage />
+        </StoryToShopBurstWrapper>
 
         {/* Page 4: The Goodness of Sattvik Makhana (Benefits) */}
         <BenefitsSection />

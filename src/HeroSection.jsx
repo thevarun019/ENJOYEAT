@@ -428,63 +428,6 @@ export default function HeroSection() {
               />
             </motion.div>
           </motion.div>
-
-          {/* ── "Hover to rotate" Curved Arrow (Animated after Kraft pouch lands) ── */}
-          {kraftLanded && (
-            <motion.div
-              style={{
-                ...box(612, 230, 110, 48),
-                zIndex: 35,
-                pointerEvents: 'none',
-                opacity: arrowOpacity,
-              }}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: [1, 1.06, 1] }}
-              transition={{
-                opacity: { duration: 0.4 },
-                scale: { duration: 2.4, repeat: Infinity, ease: 'easeInOut' },
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: u(4) }}>
-                <svg width="34" height="26" viewBox="0 0 44 32" fill="none">
-                  <motion.path
-                    d="M6 24 C14 8, 30 6, 38 18"
-                    stroke="#8C6D3B"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.9, ease: 'easeInOut' }}
-                  />
-                  <motion.polyline
-                    points="31,18 38,18 38,11"
-                    stroke="#8C6D3B"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.7, duration: 0.3 }}
-                  />
-                </svg>
-                <motion.span
-                  initial={{ opacity: 0, x: -4 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.9, duration: 0.4 }}
-                  style={{
-                    fontSize: u(9.8),
-                    fontWeight: 600,
-                    letterSpacing: '.05em',
-                    color: '#8C6D3B',
-                    whiteSpace: 'nowrap',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  Hover to rotate
-                </motion.span>
-              </div>
-            </motion.div>
-          )}
         </div>
 
         {/* ── Terracotta Bowl Exit Wrapper (Sinks downward over [0.2, 0.8]) ── */}
@@ -515,7 +458,8 @@ export default function HeroSection() {
             inset: 0,
             y: reducedMotion ? 0 : textExitY,
             opacity: textExitOpacity,
-            pointerEvents: isExiting ? 'none' : 'auto',
+            zIndex: 60,
+            pointerEvents: 'auto',
           }}
         >
           <h1
@@ -567,12 +511,18 @@ export default function HeroSection() {
           <a
             href="#shop"
             className="ee-btn"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById('shop');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
             style={{
               ...box(343, 203, 196, 35),
               borderRadius: u(4),
               fontSize: u(11.8),
               fontWeight: 500,
               letterSpacing: '.05em',
+              zIndex: 50,
             }}
           >
             EXPLORE OUR PRODUCTS
@@ -580,10 +530,16 @@ export default function HeroSection() {
           <a
             href="#our-story"
             className="ee-link"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById('our-story');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }}
             style={{
               left: u(551),
               top: u(212),
               fontSize: u(13.2),
+              zIndex: 50,
             }}
           >
             Discover Our Story →

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useReducedMotionSafe } from './hooks/useReducedMotionSafe';
 
-import leavesLeft from './assets/shop/leaves-left.png';
-import topRight from './assets/shop/top-right.png';
 import leftPouch from './assets/shop/left-pouch.png';
 import shopCenterScene from './assets/shop/shop-center-scene.png';
 import shopBulkSacks from './assets/shop/shop-bulk-sacks.png';
 
-/* Layout is authored on the mockup's 2576 x 1438 canvas and scales with viewport container-type */
+/* Layout authored on 2576 x 1438 canvas matching desktop ratio */
 const W = 2576, H = 1438;
 const pos = (x, y, w, h) => ({
   left: `${(x / W) * 100}%`,
@@ -18,7 +18,7 @@ const fs = (px) => `${(px / W) * 100}cqw`;
 
 const SIZES = ['100g', '500g', '1kg'];
 
-/* Text stretched to the exact width used in the mockup */
+/* Text stretched to the exact width */
 function Fit({ x, y, w, size, children, className = '' }) {
   return (
     <svg className={`abs ${className}`} style={pos(x, y, w, size * 1.3)} viewBox={`0 0 ${w} ${size * 1.3}`} aria-label={children}>
@@ -27,41 +27,136 @@ function Fit({ x, y, w, size, children, className = '' }) {
   );
 }
 
+const HEADLINE_TEXT = "CHOOSE YOUR NATURAL CRUNCH";
+const SUBTITLE_TEXT = "Premium raw makhana from Bihar, packed with natural goodness.";
+
 export default function ChooseCrunchPage() {
   const [size, setSize] = useState('100g');
+  const reducedMotion = useReducedMotionSafe();
+
+  // Typewriter letter stagger variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.032, // typewriter speed per letter
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const letterVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.15, ease: 'easeOut' },
+    },
+  };
 
   return (
     <div className="pg">
       <style>{css}</style>
       <section id="shop" className="stage" aria-label="Choose your natural crunch">
-        {/* Background foliage */}
-        {/* Corner leaf crops removed to eliminate visible rectangle boxes */}
+        
+        {/* ── Headline & Subtitle with One-Way (once: true) Typewriter Animation ── */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10 }}>
+          <motion.div
+            className="abs"
+            style={{
+              ...pos(165, 175, 1925, 140),
+              display: 'flex',
+              alignItems: 'baseline',
+              flexWrap: 'nowrap',
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontWeight: 700,
+              fontSize: fs(102),
+              color: '#3d2a1f',
+              letterSpacing: '0.04em',
+              lineHeight: 1.1,
+              userSelect: 'none',
+            }}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            {HEADLINE_TEXT.split('').map((char, index) => (
+              <motion.span
+                key={index}
+                variants={letterVariants}
+                style={{
+                  display: 'inline-block',
+                  whiteSpace: char === ' ' ? 'pre' : 'normal',
+                }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </motion.div>
 
-        {/* Headline */}
-        <svg className="abs h1" style={pos(165, 200, 1925, 120)} viewBox="0 0 1925 120" role="heading" aria-level="1" aria-label="Choose your natural crunch">
-          <text x="0" y="98" textLength="1925" lengthAdjust="spacingAndGlyphs" fontSize="128">CHOOSE YOUR NATURAL CRUNCH</text>
-        </svg>
-        <p className="abs sub" style={{ ...pos(165, 340, 900), fontSize: fs(40), lineHeight: `${fs(52)}` }}>
-          Premium raw makhana from Bihar, packed with natural goodness.
-        </p>
+          <motion.p
+            className="abs sub"
+            style={{
+              ...pos(165, 335, 1100),
+              fontSize: fs(40),
+              lineHeight: `${fs(54)}`,
+              fontFamily: 'Inter, sans-serif',
+              fontWeight: 300,
+              color: '#554236',
+              margin: 0,
+            }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.75, ease: 'easeOut' }}
+          >
+            {SUBTITLE_TEXT}
+          </motion.p>
+        </div>
 
-        {/* Left product */}
-        {/* Left product — reduced supporting size, centered at x = 420 */}
-        <img
-          className="abs fl drop-shadow-[0_20px_25px_rgba(0,0,0,0.25)]"
-          style={pos(250, 630, 340)}
-          src={leftPouch}
-          alt="Premium raw makhana pouch"
-          draggable={false}
-        />
-        <Fit x={180} y={1010} w={480} size={45} className="ttl">PREMIUM RAW MAKHANA</Fit>
-        <button className="abs soon" disabled style={{ ...pos(250, 1085, 340, 80), fontSize: fs(34) }}>COMING SOON</button>
-        <p className="abs szl" style={{ ...pos(250, 1180, 340), fontSize: fs(32) }}>{SIZES.join(' | ')}</p>
+        {/* ── Left Product: One-Way Pop-Up on First Scroll Down ── */}
+        <motion.div
+          initial={reducedMotion ? {} : { opacity: 0, scale: 0.75, y: 120 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{
+            type: 'spring',
+            stiffness: 75,
+            damping: 18,
+            mass: 0.9,
+            delay: 0.15,
+          }}
+          style={{ position: 'absolute', inset: 0, pointerEvents: 'auto', zIndex: 5 }}
+        >
+          <img
+            className="abs fl drop-shadow-[0_20px_25px_rgba(0,0,0,0.25)]"
+            style={pos(250, 630, 340)}
+            src={leftPouch}
+            alt="Premium raw makhana pouch"
+            draggable={false}
+          />
+          <Fit x={180} y={1010} w={480} size={45} className="ttl">PREMIUM RAW MAKHANA</Fit>
+          <button className="abs soon" disabled style={{ ...pos(250, 1085, 340, 80), fontSize: fs(34) }}>COMING SOON</button>
+          <p className="abs szl" style={{ ...pos(250, 1180, 340), fontSize: fs(32) }}>{SIZES.join(' | ')}</p>
+        </motion.div>
 
-        {/* Centre product — enlarged hero centerpiece centered at canvas midpoint x = 1288 */}
-        <div
+        {/* ── Centre Hero Centerpiece: One-Way Pop-Up Bounce on First Scroll Down ── */}
+        <motion.div
           className="abs ctr"
           style={pos(698, 480, 1180)}
+          initial={reducedMotion ? {} : { opacity: 0, scale: 0.65, y: 160 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            mass: 1.1,
+            delay: 0.1,
+          }}
+          whileHover={reducedMotion ? {} : { scale: 1.025 }}
         >
           <img
             src={shopCenterScene}
@@ -76,23 +171,38 @@ export default function ChooseCrunchPage() {
               maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
             }}
           />
-        </div>
+        </motion.div>
 
-        {/* Right product — reduced supporting size, centered at x = 2130 */}
-        <img
-          className="abs fl slow"
-          style={{
-            ...pos(1855, 670, 550),
-            mixBlendMode: 'multiply',
-            WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
-            maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+        {/* ── Right Product: One-Way Pop-Up on First Scroll Down ── */}
+        <motion.div
+          initial={reducedMotion ? {} : { opacity: 0, scale: 0.75, y: 120 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{
+            type: 'spring',
+            stiffness: 75,
+            damping: 18,
+            mass: 0.9,
+            delay: 0.25,
           }}
-          src={shopBulkSacks}
-          alt="Bulk makhana pouches and jute sacks"
-          draggable={false}
-        />
-        <Fit x={1850} y={1010} w={560} size={45} className="ttl">BULK &amp; WHOLESALE MAKHANA</Fit>
-        <a className="abs enq" href="#wholesale" style={{ ...pos(1960, 1085, 340, 80), fontSize: fs(34) }}>ENQUIRE NOW</a>
+          style={{ position: 'absolute', inset: 0, pointerEvents: 'auto', zIndex: 5 }}
+        >
+          <img
+            className="abs fl slow"
+            style={{
+              ...pos(1855, 670, 550),
+              mixBlendMode: 'multiply',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+              maskImage: 'radial-gradient(closest-side, black 75%, transparent 100%)',
+            }}
+            src={shopBulkSacks}
+            alt="Bulk makhana pouches and jute sacks"
+            draggable={false}
+          />
+          <Fit x={1850} y={1010} w={560} size={45} className="ttl">BULK &amp; WHOLESALE MAKHANA</Fit>
+          <a className="abs enq" href="#wholesale" style={{ ...pos(1960, 1085, 340, 80), fontSize: fs(34) }}>ENQUIRE NOW</a>
+        </motion.div>
+
       </section>
     </div>
   );
@@ -107,6 +217,10 @@ const css = `
   color: var(--ink);
   background: #EFE7D6;
   overflow-x: hidden;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  scroll-snap-align: start;
 }
 .pg * { box-sizing: border-box; }
 .stage {
@@ -119,21 +233,11 @@ const css = `
 }
 .abs { position: absolute; margin: 0; }
 img.abs { display: block; height: auto; }
-.h1 {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-weight: 700;
-  fill: var(--ink);
-  overflow: visible;
-  clip-path: inset(-20% 100% -20% 0);
-  animation: wipe 1.5s .3s cubic-bezier(.7,0,.2,1) forwards;
-}
-.sub { font-weight: 300; animation: fade 1s 1.3s both; }
 .ttl {
   font-family: 'Inter Tight', Inter, sans-serif;
   font-weight: 600;
   fill: var(--ink);
   overflow: visible;
-  animation: fade 1s 1.5s both;
 }
 .soon, .enq {
   display: grid;
@@ -144,56 +248,15 @@ img.abs { display: block; height: auto; }
   font-weight: 400;
   font-family: Inter, sans-serif;
   text-decoration: none;
-  animation: fade 1s 1.7s both;
   transition: transform .25s, box-shadow .25s;
 }
 .soon { background: #665a53; cursor: not-allowed; }
 .enq { background: #7e8458; cursor: pointer; }
 .enq:hover { transform: translateY(-4px); box-shadow: 0 1.2cqw 2cqw #3d2a1f33; }
-.szl { text-align: center; font-weight: 300; white-space: nowrap; animation: fade 1s 1.8s both; }
-.sel { font-weight: 300; line-height: 1.5; animation: fade 1s 1.4s both; }
-.sel .row { white-space: nowrap; }
-.sel i { font-style: normal; margin: 0 .45em; }
-.sel button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: 0;
-  padding: 0 0 .08em;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: color .3s, border-color .3s;
-}
-.sel button:hover { color: var(--gold); }
-.sel button.on { font-weight: 500; border-color: var(--gold); }
-.dash { border-top: 2px dashed #c9a96a; animation: grow 1s 1.6s both; transform-origin: left; }
-.ctr { animation: rise 1.2s .9s cubic-bezier(.2,.9,.3,1.1) both; transition: transform .25s ease-out; z-index: 2; }
-.ctr img { display: block; width: 100%; animation: swap .6s both; }
-.scene { z-index: 3; }
-.bdg {
-  background: var(--ink);
-  color: #fff;
-  font-weight: 600;
-  border-radius: 999px;
-  padding: .3em .8em;
-  z-index: 4;
-  animation: stamp .5s both;
-}
-.fl { animation: fade 1.2s 1.2s both; }
-.fl.slow { animation-duration: 1.2s; }
-.fl.s { z-index: 4; animation-duration: 1.2s; }
-.sway { transform-origin: bottom left; }
-
-@keyframes wipe { to { clip-path: inset(-20% -2% -20% 0); } }
-@keyframes fade { from { opacity: 0; transform: translateY(2cqw); } }
-@keyframes rise { from { opacity: 0; margin-top: 6cqw; scale: .9; } }
-@keyframes grow { from { transform: scaleX(0); } }
-
-@keyframes swap { from { opacity: .3; scale: .94; } }
-@keyframes stamp { from { opacity: 0; scale: 2; } }
+.szl { text-align: center; font-weight: 300; white-space: nowrap; }
+.ctr { z-index: 2; }
 
 @media(prefers-reduced-motion: reduce) {
   .pg * { animation: none !important; transition: none !important; }
-  .h1 { clip-path: none; }
 }
 `;
