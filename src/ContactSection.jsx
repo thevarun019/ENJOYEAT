@@ -363,7 +363,7 @@ export default function ContactSection() {
           - Right: 3D Bihar Map (placed where message form was)
           - Footer: Clean copyright & policy links
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="ct-stage ct-mobile-only" aria-label="Get in Touch">
+      <section id="contact-mobile" className="ct-stage ct-mobile-only" aria-label="Get in Touch">
         {/* Mobile Header */}
         <motion.div
           style={{ position: 'absolute', left: uM(18), top: uM(14), right: uM(18), zIndex: 2 }}

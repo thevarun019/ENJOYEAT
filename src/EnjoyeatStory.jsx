@@ -389,7 +389,7 @@ export default function EnjoyeatStory() {
           - Prominent Scrapbook Journal photo centered
           - 3 Process Cards stacked cleanly with crisp images & readable text!
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="es-stage es-mobile-only" aria-label="Our story">
+      <section className="es-stage es-mobile-only" id="our-story-mobile" aria-label="Our story">
         {/* Mobile Header */}
         <motion.div
           style={{ position: 'absolute', left: uM(18), top: uM(12), right: uM(18), zIndex: 10 }}

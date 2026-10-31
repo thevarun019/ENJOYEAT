@@ -398,11 +398,14 @@ export default function ChooseCrunchPage() {
               display: "flex",
               gap: uM(8),
               marginTop: uM(8),
+              position: "relative",
+              zIndex: 15,
             }}
           >
             {SIZES.map((s) => (
               <button
                 key={s}
+                type="button"
                 onClick={() => setSize(s)}
                 style={{
                   padding: `${uM(4)} ${uM(12)}`,
@@ -417,6 +420,8 @@ export default function ChooseCrunchPage() {
                   background: size === s ? "#4f6b52" : "rgba(255,255,255,0.7)",
                   color: size === s ? "#ffffff" : "#3d2a1f",
                   cursor: "pointer",
+                  pointerEvents: "auto",
+                  touchAction: "manipulation",
                   transition: "all 0.2s ease",
                 }}
               >
@@ -428,6 +433,18 @@ export default function ChooseCrunchPage() {
           {/* Order / Enquire CTA */}
           <a
             href="#contact"
+            onClick={(e) => {
+              e.preventDefault();
+              const el =
+                document.getElementById("contact-mobile") ||
+                document.getElementById("contact-mobile-wrap") ||
+                document.getElementById("contact");
+              if (el) {
+                const navHeight = 72;
+                const pos = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                window.scrollTo({ top: Math.max(0, pos), behavior: "smooth" });
+              }
+            }}
             style={{
               marginTop: uM(10),
               width: "80%",
@@ -444,6 +461,11 @@ export default function ChooseCrunchPage() {
               letterSpacing: "0.05em",
               textDecoration: "none",
               boxShadow: "0 4px 12px rgba(79, 107, 82, 0.28)",
+              cursor: "pointer",
+              pointerEvents: "auto",
+              touchAction: "manipulation",
+              position: "relative",
+              zIndex: 15,
             }}
           >
             BOOK NOW • {size}
@@ -632,6 +654,18 @@ export default function ChooseCrunchPage() {
             </span>
             <a
               href="#wholesale"
+              onClick={(e) => {
+                e.preventDefault();
+                const el =
+                  document.getElementById("wholesale-mobile") ||
+                  document.getElementById("wholesale-mobile-wrap") ||
+                  document.getElementById("wholesale");
+                if (el) {
+                  const navHeight = 72;
+                  const pos = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                  window.scrollTo({ top: Math.max(0, pos), behavior: "smooth" });
+                }
+              }}
               style={{
                 marginTop: uM(6),
                 width: uM(140),
@@ -647,6 +681,9 @@ export default function ChooseCrunchPage() {
                 alignItems: "center",
                 justifyContent: "center",
                 boxShadow: "0 3px 8px rgba(126, 132, 88, 0.28)",
+                cursor: "pointer",
+                pointerEvents: "auto",
+                touchAction: "manipulation",
               }}
             >
               ENQUIRE NOW

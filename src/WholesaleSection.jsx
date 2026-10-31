@@ -287,7 +287,7 @@ export default function WholesaleSection() {
           - Pallet image with badges centered
           - Bulk enquiry form card cleanly placed below with touch inputs
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="ws-stage ws-mobile-only" aria-label="Partner with us — Wholesale">
+      <section id="wholesale-mobile" className="ws-stage ws-mobile-only" aria-label="Partner with us — Wholesale">
         {/* Mobile Header */}
         <motion.div
           style={{ position: 'absolute', left: uM(18), top: uM(14), right: uM(18), zIndex: 10 }}
@@ -418,6 +418,8 @@ export default function WholesaleSection() {
                 cursor: 'pointer',
                 boxShadow: '0 4px 10px rgba(0,0,0,0.1)',
                 marginTop: uM(2),
+                pointerEvents: 'auto',
+                touchAction: 'manipulation',
               }}
             >
               SUBMIT ENQUIRY →

@@ -49,14 +49,35 @@ export default function Navbar() {
     return activeSection === id;
   };
 
-  /* ── Smooth scroll handler ── */
+  /* ── Smooth scroll handler with robust cross-browser / mobile fallback ── */
   const handleNav = (e, href) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
     setMobileOpen(false);
+
+    const id = href.replace("#", "");
+    const isMobileViewport = typeof window !== "undefined" && window.innerWidth <= 768;
+
+    // Prefer the mobile section/wrapper on mobile, and the desktop section on desktop
+    const target = isMobileViewport
+      ? document.getElementById(`${id}-mobile-wrap`) ||
+        document.getElementById(`${id}-mobile`) ||
+        document.getElementById(id) ||
+        document.querySelector(href)
+      : document.getElementById(id) ||
+        document.getElementById(`${id}-mobile-wrap`) ||
+        document.getElementById(`${id}-mobile`) ||
+        document.querySelector(href);
+
+    if (target) {
+      const navHeight = 72;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: "smooth",
+      });
+    }
   };
 
   return (
@@ -198,7 +219,7 @@ export default function Navbar() {
             href="#shop"
             id="nav-shop-btn"
             onClick={(e) => handleNav(e, "#shop")}
-            className="px-3 py-1.5 text-[11px] md:px-6 md:py-2.5 md:text-sm font-semibold rounded-md whitespace-nowrap"
+            className="px-3 py-1.5 text-[11px] md:px-6 md:py-2.5 md:text-sm font-semibold rounded-md whitespace-nowrap cursor-pointer touch-manipulation"
             style={{
               background: "linear-gradient(135deg, #c9a55a, #8C6D3B)",
               color: "#fff",
@@ -208,6 +229,7 @@ export default function Navbar() {
               boxShadow: "0 3px 12px rgba(140,109,59,0.3)",
               transition: "opacity 0.2s, transform 0.15s",
               fontFamily: "'Plus Jakarta Sans', Inter, sans-serif",
+              pointerEvents: "auto",
             }}
             onMouseEnter={(e) => {
               e.target.style.opacity = "0.88";
@@ -223,16 +245,19 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="nav-hamburger"
+            type="button"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            className="nav-hamburger touch-manipulation cursor-pointer"
             aria-label="Toggle menu"
             style={{
               display: "none",
               background: "none",
               border: "none",
               cursor: "pointer",
-              padding: 6,
+              padding: 8,
               color: "#3b2c20",
+              touchAction: "manipulation",
+              pointerEvents: "auto",
             }}
           >
             <svg
@@ -280,14 +305,17 @@ export default function Navbar() {
                 key={item.name}
                 href={item.href}
                 onClick={(e) => handleNav(e, item.href)}
+                className="cursor-pointer touch-manipulation"
                 style={{
-                  fontSize: 15,
-                  fontWeight: 500,
+                  fontSize: 16,
+                  fontWeight: 600,
                   color: "#3b2c20",
                   textDecoration: "none",
-                  padding: "8px 0",
+                  padding: "10px 0",
                   borderBottom: "1px solid rgba(180,165,138,0.3)",
                   fontFamily: "'Plus Jakarta Sans', Inter, sans-serif",
+                  touchAction: "manipulation",
+                  pointerEvents: "auto",
                 }}
               >
                 {item.name}

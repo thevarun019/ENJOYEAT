@@ -509,7 +509,7 @@ export default function HeroSection() {
           - Prominent 3D Pouches centerpiece below with bowl & floaters
           - Clean vertical composition eliminating horizontal squishing!
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="ee-stage ee-mobile-only" aria-label="Enjoyeat Makhana hero">
+      <section id="hero-mobile" className="ee-stage ee-mobile-only" aria-label="Enjoyeat Makhana hero">
         {/* Floating herbs/makhana background */}
         <img src={el_bigL} alt="" aria-hidden style={{ ...boxM(10, 140, 52, 58), pointerEvents: 'none', opacity: 0.6 }} />
         <img src={el_bigR} alt="" aria-hidden style={{ ...boxM(420, 130, 50, 48), pointerEvents: 'none', opacity: 0.6 }} />
@@ -563,14 +563,18 @@ export default function HeroSection() {
           </p>
 
           {/* CTA Buttons in a clean touch-friendly row */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: uM(14), marginTop: uM(12) }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: uM(14), marginTop: uM(12), position: 'relative', zIndex: 100 }}>
             <a
               href="#shop"
               className="ee-btn"
               onClick={(e) => {
                 e.preventDefault();
-                const el = document.getElementById('shop');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const el = document.getElementById('shop-mobile') || document.getElementById('shop-mobile-wrap') || document.getElementById('shop');
+                if (el) {
+                  const navHeight = 72;
+                  const pos = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                  window.scrollTo({ top: Math.max(0, pos), behavior: 'smooth' });
+                }
               }}
               style={{
                 position: 'relative',
@@ -579,6 +583,9 @@ export default function HeroSection() {
                 fontSize: uM(11),
                 fontWeight: 600,
                 letterSpacing: '.04em',
+                pointerEvents: 'auto',
+                touchAction: 'manipulation',
+                cursor: 'pointer',
               }}
             >
               EXPLORE OUR PRODUCTS
@@ -588,13 +595,20 @@ export default function HeroSection() {
               className="ee-link"
               onClick={(e) => {
                 e.preventDefault();
-                const el = document.getElementById('our-story');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const el = document.getElementById('our-story-mobile') || document.getElementById('story-mobile-wrap') || document.getElementById('our-story');
+                if (el) {
+                  const navHeight = 72;
+                  const pos = el.getBoundingClientRect().top + window.pageYOffset - navHeight;
+                  window.scrollTo({ top: Math.max(0, pos), behavior: 'smooth' });
+                }
               }}
               style={{
                 position: 'relative',
                 fontSize: uM(12),
                 fontWeight: 600,
+                pointerEvents: 'auto',
+                touchAction: 'manipulation',
+                cursor: 'pointer',
               }}
             >
               Discover Our Story →

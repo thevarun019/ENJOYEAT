@@ -214,7 +214,7 @@ export default function BenefitsSection() {
           MOBILE VIEW (width <= 768px): 480 x 420 Proportional Mobile Stage
           Matches Video 2 phone layout with generous vertical space & crisp text!
       ══════════════════════════════════════════════════════════════════ */}
-      <section className="bn-stage bn-mobile-only" aria-label="The Goodness of Sattvik Makhana">
+      <section id="benefits-mobile" className="bn-stage bn-mobile-only" aria-label="The Goodness of Sattvik Makhana">
         {/* Mobile Section Header */}
         <motion.div
           style={{ position: 'absolute', left: uM(18), top: uM(14), right: uM(18), zIndex: 2 }}
