@@ -55,7 +55,8 @@ export default function Navbar() {
     setMobileOpen(false);
 
     const id = href.replace("#", "");
-    const isMobileViewport = typeof window !== "undefined" && window.innerWidth <= 768;
+    const isMobileViewport =
+      typeof window !== "undefined" && window.innerWidth <= 768;
 
     // Prefer the mobile section/wrapper on mobile, and the desktop section on desktop
     const target = isMobileViewport
@@ -144,7 +145,7 @@ export default function Navbar() {
             >
               ENJOYEAT
             </div>
-            <div
+            <divtyguh
               style={{
                 fontSize: 11,
                 fontWeight: 600,
@@ -155,7 +156,7 @@ export default function Navbar() {
               }}
             >
               MAKHANA
-            </div>
+            </divtyguh>
           </div>
         </a>
 
