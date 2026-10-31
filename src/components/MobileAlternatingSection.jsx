@@ -6,11 +6,10 @@ import { useReducedMotionSafe } from "../hooks/useReducedMotionSafe";
  * MobileAlternatingSection:
  * Creates an elegant, punchy alternating entry & shifting animation on mobile:
  * - When shifting from one section to another:
- *   - Direction 'right': pops up with dynamic slide from right (+50px)
- *   - Direction 'left': pops up with dynamic slide from left (-50px)
- * - Uses spring easing for natural physical settling (stiffness: 85, damping: 16)
- * - Safe for desktop & reduced motion: passes through smoothly with zero interference
- * - One-way safe on mobile: triggers once on scroll down (viewport: { once: true, amount: 0.08 })
+ *   - Direction 'right': pops up with dynamic slide from right (+48px)
+ *   - Direction 'left': pops up with dynamic slide from left (-48px)
+ * - Uses spring easing for natural physical settling (stiffness: 80, damping: 17)
+ * - Low amount threshold (amount: 0.04) ensures it triggers reliably on mobile viewports
  */
 export default function MobileAlternatingSection({
   children,
@@ -19,7 +18,7 @@ export default function MobileAlternatingSection({
   className = "",
 }) {
   const reducedMotion = useReducedMotionSafe();
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => (typeof window !== "undefined" ? window.innerWidth <= 768 : false));
 
   useEffect(() => {
     const checkMobile = () => {
@@ -27,14 +26,18 @@ export default function MobileAlternatingSection({
     };
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener("orientationchange", checkMobile);
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      window.removeEventListener("orientationchange", checkMobile);
+    };
   }, []);
 
   const isFromRight = direction === "right";
-  // On mobile, shifting offset is punchy (+55px / -55px); on desktop it stays clean (0px)
-  const initialX = isMobile ? (isFromRight ? 55 : -55) : 0;
-  const initialY = isMobile ? 32 : 0;
-  const initialScale = isMobile ? 0.95 : 1;
+  // On mobile, shifting offset is punchy (+48px / -48px); on desktop it stays clean (0px)
+  const initialX = isMobile ? (isFromRight ? 48 : -48) : 0;
+  const initialY = isMobile ? 24 : 0;
+  const initialScale = isMobile ? 0.96 : 1;
 
   return (
     <motion.div
@@ -44,7 +47,7 @@ export default function MobileAlternatingSection({
         reducedMotion
           ? {}
           : {
-              opacity: isMobile ? 0 : 1,
+              opacity: isMobile ? 0.2 : 1,
               x: initialX,
               y: initialY,
               scale: initialScale,
@@ -56,12 +59,12 @@ export default function MobileAlternatingSection({
         y: 0,
         scale: 1,
       }}
-      viewport={{ once: true, amount: 0.08 }}
+      viewport={{ once: true, amount: 0.04 }}
       transition={{
         type: "spring",
-        stiffness: 85,
-        damping: 16,
-        mass: 0.8,
+        stiffness: 80,
+        damping: 17,
+        mass: 0.85,
         restDelta: 0.001,
       }}
     >

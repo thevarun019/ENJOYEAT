@@ -156,7 +156,7 @@ export default function BenefitsSection() {
           style={{ ...boxD(328, 128, 368, 332), zIndex: 3 }}
           initial={reducedMotion ? {} : { scale: 0.94, opacity: 0, y: 20 }}
           whileInView={{ scale: 1, opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{ ...easeTransition, delay: 0.05 }}
         >
           <img
@@ -220,7 +220,7 @@ export default function BenefitsSection() {
           style={{ position: 'absolute', left: uM(18), top: uM(14), right: uM(18), zIndex: 2 }}
           initial={reducedMotion ? {} : { opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={easeTransition}
         >
           <h2
@@ -263,7 +263,7 @@ export default function BenefitsSection() {
           }}
           initial={reducedMotion ? {} : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{ duration: 0.8, delay: 0.15, ease: 'easeOut' }}
         >
           {/* Mobile Connector 1: Top-Left Card -> Center */}
@@ -290,7 +290,7 @@ export default function BenefitsSection() {
           style={{ ...boxM(14, 102, 132, 58), zIndex: 2 }}
           initial={reducedMotion ? {} : { x: -45, y: 15, opacity: 0, scale: 0.94 }}
           whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 85,
@@ -311,7 +311,7 @@ export default function BenefitsSection() {
           style={{ ...boxM(14, 212, 132, 58), zIndex: 2 }}
           initial={reducedMotion ? {} : { x: -45, y: 15, opacity: 0, scale: 0.94 }}
           whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 85,
@@ -332,7 +332,7 @@ export default function BenefitsSection() {
           style={{ ...boxM(152, 85, 176, 215), zIndex: 3 }}
           initial={reducedMotion ? {} : { scale: 0.88, opacity: 0, y: 24 }}
           whileInView={{ scale: 1, opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 90,
@@ -360,7 +360,7 @@ export default function BenefitsSection() {
           style={{ ...boxM(334, 102, 132, 60), zIndex: 2 }}
           initial={reducedMotion ? {} : { x: 45, y: 15, opacity: 0, scale: 0.94 }}
           whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 85,
@@ -381,7 +381,7 @@ export default function BenefitsSection() {
           style={{ ...boxM(334, 212, 132, 59), zIndex: 2 }}
           initial={reducedMotion ? {} : { x: 45, y: 15, opacity: 0, scale: 0.94 }}
           whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 85,

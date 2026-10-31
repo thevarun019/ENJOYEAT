@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useReducedMotionSafe } from './hooks/useReducedMotionSafe';
 import biharMapClean from './assets/bihar-map-clean.jpg';
 import elM1 from './assets/hero/el_m1.png';
 import elM4 from './assets/hero/el_m4.png';
@@ -7,14 +8,24 @@ import elM7 from './assets/hero/el_m7.png';
 import elBasil from './assets/hero/el_basil.png';
 import elSage from './assets/hero/el_sage.png';
 
-/* 1024 x 572 stage matching HeroSection & EnjoyeatStory architecture */
-const u = (n) => `${((n / 1024) * 100).toFixed(4)}cqw`;
-const box = (x, y, w, h) => ({
+/* ── Desktop Canvas: 1024 x 572 ── */
+const uD = (n) => `${((n / 1024) * 100).toFixed(4)}cqw`;
+const boxD = (x, y, w, h) => ({
   position: 'absolute',
-  left: u(x),
-  top: u(y),
-  ...(w != null && { width: u(w) }),
-  ...(h != null && { height: u(h) }),
+  left: uD(x),
+  top: uD(y),
+  ...(w != null && { width: uD(w) }),
+  ...(h != null && { height: uD(h) }),
+});
+
+/* ── Mobile Canvas: 480 x 640 matching Video 3 phone viewport ── */
+const uM = (n) => `${((n / 480) * 100).toFixed(4)}cqw`;
+const boxM = (x, y, w, h) => ({
+  position: 'absolute',
+  left: uM(x),
+  top: uM(y),
+  ...(w != null && { width: uM(w) }),
+  ...(h != null && { height: uM(h) }),
 });
 
 const FONT_SERIF = "'Cinzel', 'Playfair Display', 'Cormorant Garamond', Georgia, serif";
@@ -22,7 +33,7 @@ const FONT_SANS  = "'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFon
 
 /* ── 3D Custom Rendered Icons ── */
 const EnvelopeIcon = () => (
-  <svg viewBox="0 0 44 44" fill="none" style={{ width: u(34), height: u(34), filter: 'drop-shadow(0 3px 6px rgba(70,50,25,0.25))' }}>
+  <svg viewBox="0 0 44 44" fill="none" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 3px 6px rgba(70,50,25,0.25))' }}>
     <defs>
       <linearGradient id="envGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#D8C39F" />
@@ -49,7 +60,7 @@ const EnvelopeIcon = () => (
 );
 
 const PhoneIcon = () => (
-  <svg viewBox="0 0 44 44" fill="none" style={{ width: u(34), height: u(34), filter: 'drop-shadow(0 3px 6px rgba(45,60,35,0.28))' }}>
+  <svg viewBox="0 0 44 44" fill="none" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 3px 6px rgba(45,60,35,0.28))' }}>
     <defs>
       <linearGradient id="phGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#8DA078" />
@@ -72,7 +83,7 @@ const PhoneIcon = () => (
 );
 
 const LocationPinIcon = () => (
-  <svg viewBox="0 0 44 44" fill="none" style={{ width: u(34), height: u(34), filter: 'drop-shadow(0 3px 6px rgba(70,50,25,0.25))' }}>
+  <svg viewBox="0 0 44 44" fill="none" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 3px 6px rgba(70,50,25,0.25))' }}>
     <defs>
       <linearGradient id="pinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stopColor="#D5C09B" />
@@ -93,7 +104,7 @@ const LocationPinIcon = () => (
 );
 
 const InstagramIcon = () => (
-  <svg viewBox="0 0 36 36" style={{ width: u(26), height: u(26), filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
+  <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
     <circle cx="18" cy="18" r="16" fill="#833AB4" />
     <rect x="11.5" y="11.5" width="13" height="13" rx="3.8" stroke="#FFFFFF" strokeWidth="1.6" fill="none" />
     <circle cx="18" cy="18" r="3.2" stroke="#FFFFFF" strokeWidth="1.6" fill="none" />
@@ -102,7 +113,7 @@ const InstagramIcon = () => (
 );
 
 const FacebookIcon = () => (
-  <svg viewBox="0 0 36 36" style={{ width: u(26), height: u(26), filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
+  <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
     <circle cx="18" cy="18" r="16" fill="#1877F2" />
     <path
       d="M19.5 26.5V18.8H22.1L22.5 15.8H19.5V13.9C19.5 13 19.8 12.5 21 12.5H22.6V9.8C22.3 9.8 21.3 9.7 20.2 9.7C17.8 9.7 16.2 11.2 16.2 13.7V15.8H13.6V18.8H16.2V26.5H19.5Z"
@@ -112,7 +123,7 @@ const FacebookIcon = () => (
 );
 
 const YouTubeIcon = () => (
-  <svg viewBox="0 0 36 36" style={{ width: u(26), height: u(26), filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
+  <svg viewBox="0 0 36 36" style={{ width: '100%', height: '100%', filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))' }}>
     <circle cx="18" cy="18" r="16" fill="#FF0000" />
     <polygon points="15.5,13 23,18 15.5,23" fill="#FFFFFF" />
   </svg>
@@ -127,8 +138,8 @@ const CONTACT_ITEMS = [
   },
   {
     label: 'Phone / WhatsApp',
-    value: '+91 XXXXXXXXXX',
-    href: 'https://wa.me/91XXXXXXXXXX',
+    value: '+91 9876543210',
+    href: 'https://wa.me/919876543210',
     icon: <PhoneIcon />,
   },
   {
@@ -140,21 +151,39 @@ const CONTACT_ITEMS = [
 ];
 
 export default function ContactSection() {
+  const reducedMotion = useReducedMotionSafe();
+  const [formState, setFormState] = useState({ name: '', email: '', message: '' });
+
+  const handleFormChange = (e) =>
+    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    const text = encodeURIComponent(
+      `Hello EnjoyEat,\nName: ${formState.name}\nEmail/Phone: ${formState.email}\nMessage: ${formState.message}`
+    );
+    window.open(`https://wa.me/919876543210?text=${text}`, '_blank');
+  };
+
   return (
     <div className="ct-wrap">
       <style>{CSS}</style>
-      <section id="contact" className="ct-stage" aria-label="Get in Touch">
-        {/* Scattered decorative makhana & leaves */}
-        <img src={elM1} alt="" aria-hidden style={{ ...box(15, 230, 24, 24), pointerEvents: 'none', zIndex: 0 }} />
-        <img src={elM4} alt="" aria-hidden style={{ ...box(440, 210, 24, 24), pointerEvents: 'none', zIndex: 0 }} />
-        <img src={elM7} alt="" aria-hidden style={{ ...box(920, 160, 26, 26), pointerEvents: 'none', zIndex: 0 }} />
-        <img src={elBasil} alt="" aria-hidden style={{ ...box(10, 420, 40, 40), pointerEvents: 'none', opacity: 0.75, zIndex: 0, transform: 'rotate(45deg)' }} />
-        <img src={elSage} alt="" aria-hidden style={{ ...box(960, 360, 40, 32), pointerEvents: 'none', opacity: 0.8, zIndex: 0, transform: 'rotate(-30deg)' }} />
 
-        {/* ── LEFT: Title, Subtitle, Contact Card ── */}
+      {/* ══════════════════════════════════════════════════════════════════
+          DESKTOP VIEW (width >= 769px): 1024 x 572 Balanced Stage
+      ══════════════════════════════════════════════════════════════════ */}
+      <section id="contact" className="ct-stage ct-desktop-only" aria-label="Get in Touch">
+        {/* Scattered decorative makhana & leaves */}
+        <img src={elM1} alt="" aria-hidden style={{ ...boxD(15, 230, 24, 24), pointerEvents: 'none', zIndex: 0 }} />
+        <img src={elM4} alt="" aria-hidden style={{ ...boxD(440, 210, 24, 24), pointerEvents: 'none', zIndex: 0 }} />
+        <img src={elM7} alt="" aria-hidden style={{ ...boxD(920, 160, 26, 26), pointerEvents: 'none', zIndex: 0 }} />
+        <img src={elBasil} alt="" aria-hidden style={{ ...boxD(10, 420, 40, 40), pointerEvents: 'none', opacity: 0.75, zIndex: 0, transform: 'rotate(45deg)' }} />
+        <img src={elSage} alt="" aria-hidden style={{ ...boxD(960, 360, 40, 32), pointerEvents: 'none', opacity: 0.8, zIndex: 0, transform: 'rotate(-30deg)' }} />
+
+        {/* ── Title, Subtitle ── */}
         <motion.div
-          style={{ position: 'absolute', left: u(54), top: u(36), zIndex: 2 }}
-          initial={{ opacity: 0, y: 15 }}
+          style={{ position: 'absolute', left: uD(54), top: uD(36), zIndex: 2 }}
+          initial={reducedMotion ? {} : { opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.65, ease: 'easeOut' }}
@@ -162,7 +191,7 @@ export default function ContactSection() {
           <h1
             style={{
               fontFamily: FONT_SERIF,
-              fontSize: u(36),
+              fontSize: uD(36),
               fontWeight: 700,
               color: '#2D2016',
               textTransform: 'uppercase',
@@ -176,10 +205,10 @@ export default function ContactSection() {
           <p
             style={{
               fontFamily: FONT_SANS,
-              fontSize: u(12),
+              fontSize: uD(12),
               color: '#55483D',
-              margin: `${u(6)} 0 0`,
-              maxWidth: u(380),
+              margin: `${uD(6)} 0 0`,
+              maxWidth: uD(380),
               lineHeight: 1.5,
             }}
           >
@@ -187,16 +216,16 @@ export default function ContactSection() {
           </p>
         </motion.div>
 
-        {/* Contact Card */}
+        {/* Desktop Contact Card */}
         <motion.div
           style={{
-            ...box(54, 136, 380, 360),
+            ...boxD(54, 136, 380, 360),
             background: 'rgba(255, 255, 255, 0.82)',
             backdropFilter: 'blur(16px)',
             WebkitBackdropFilter: 'blur(16px)',
             border: '1.5px solid rgba(255, 255, 255, 0.95)',
-            borderRadius: u(18),
-            padding: `${u(18)} ${u(22)}`,
+            borderRadius: uD(18),
+            padding: `${uD(18)} ${uD(22)}`,
             boxShadow: '0 14px 34px rgba(50, 35, 15, 0.06)',
             boxSizing: 'border-box',
             display: 'flex',
@@ -204,7 +233,7 @@ export default function ContactSection() {
             justifyContent: 'space-between',
             zIndex: 2,
           }}
-          initial={{ opacity: 0, x: -45, y: 15, scale: 0.94 }}
+          initial={reducedMotion ? {} : { opacity: 0, x: -45, y: 15, scale: 0.94 }}
           whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{
@@ -221,17 +250,17 @@ export default function ContactSection() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                paddingBottom: u(10),
+                paddingBottom: uD(10),
                 borderBottom: '1px solid rgba(215, 200, 175, 0.35)',
               }}
             >
-              <div style={{ display: 'flex', flexDirection: 'column', gap: u(2) }}>
-                <span style={{ fontSize: u(11), fontWeight: 600, color: '#7D7164' }}>{item.label}</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: uD(2) }}>
+                <span style={{ fontSize: uD(11), fontWeight: 600, color: '#7D7164' }}>{item.label}</span>
                 {item.href ? (
                   <a
                     href={item.href}
                     style={{
-                      fontSize: u(13),
+                      fontSize: uD(13),
                       fontWeight: 700,
                       color: '#241A13',
                       textDecoration: 'none',
@@ -240,40 +269,40 @@ export default function ContactSection() {
                     {item.value}
                   </a>
                 ) : (
-                  <span style={{ fontSize: u(13), fontWeight: 700, color: '#241A13' }}>{item.value}</span>
+                  <span style={{ fontSize: uD(13), fontWeight: 700, color: '#241A13' }}>{item.value}</span>
                 )}
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: uD(34), height: uD(34), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 {item.icon}
               </div>
             </div>
           ))}
 
           {/* Follow Us Bar */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: u(2) }}>
-            <span style={{ fontSize: u(13), fontWeight: 700, color: '#241A13' }}>Follow Us</span>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: uD(2) }}>
+            <span style={{ fontSize: uD(13), fontWeight: 700, color: '#241A13' }}>Follow Us</span>
             <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: u(10),
+                gap: uD(10),
                 background: '#D1BE9C',
-                padding: `${u(5)} ${u(14)}`,
+                padding: `${uD(5)} ${uD(14)}`,
                 borderRadius: '999px',
                 boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.14)',
               }}
             >
-              <a href="#" aria-label="Instagram" style={{ display: 'flex', alignItems: 'center' }}><InstagramIcon /></a>
-              <a href="#" aria-label="Facebook" style={{ display: 'flex', alignItems: 'center' }}><FacebookIcon /></a>
-              <a href="#" aria-label="YouTube" style={{ display: 'flex', alignItems: 'center' }}><YouTubeIcon /></a>
+              <a href="#" aria-label="Instagram" style={{ width: uD(26), height: uD(26), display: 'flex', alignItems: 'center' }}><InstagramIcon /></a>
+              <a href="#" aria-label="Facebook" style={{ width: uD(26), height: uD(26), display: 'flex', alignItems: 'center' }}><FacebookIcon /></a>
+              <a href="#" aria-label="YouTube" style={{ width: uD(26), height: uD(26), display: 'flex', alignItems: 'center' }}><YouTubeIcon /></a>
             </div>
           </div>
         </motion.div>
 
-        {/* ── RIGHT: 3D Bihar Map ── */}
+        {/* ── Desktop 3D Bihar Map ── */}
         <motion.div
-          style={{ ...box(460, 60, 520, 430), zIndex: 1 }}
-          initial={{ opacity: 0, x: 45, y: 15, scale: 0.94 }}
+          style={{ ...boxD(460, 60, 520, 430), zIndex: 1 }}
+          initial={reducedMotion ? {} : { opacity: 0, x: 45, y: 15, scale: 0.94 }}
           whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{
@@ -303,9 +332,9 @@ export default function ContactSection() {
         {/* ── Footer Bar ── */}
         <footer
           style={{
-            ...box(0, 526, 1024, 46),
+            ...boxD(0, 526, 1024, 46),
             background: '#251912',
-            padding: `0 ${u(48)}`,
+            padding: `0 ${uD(48)}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -313,18 +342,203 @@ export default function ContactSection() {
             zIndex: 10,
           }}
         >
-          <span style={{ color: '#E2D7C2', fontSize: u(10.5), fontWeight: 400 }}>
+          <span style={{ color: '#E2D7C2', fontSize: uD(10.5), fontWeight: 400 }}>
             © 2026 ENJOYEAT FOOD PRIVATE LIMITED. All Rights Reserved.
           </span>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: u(8) }}>
-            <a href="#" style={{ color: '#E2D7C2', fontSize: u(10.5), textDecoration: 'none' }}>Privacy Policy</a>
-            <span style={{ color: '#E2D7C2', opacity: 0.4, fontSize: u(10) }}>|</span>
-            <a href="#" style={{ color: '#E2D7C2', fontSize: u(10.5), textDecoration: 'none' }}>Terms &amp; Conditions</a>
-            <span style={{ color: '#E2D7C2', opacity: 0.4, fontSize: u(10) }}>|</span>
-            <a href="#" style={{ color: '#E2D7C2', fontSize: u(10.5), textDecoration: 'none' }}>Shipping &amp; Refund Policy</a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: uD(8) }}>
+            <a href="#" style={{ color: '#E2D7C2', fontSize: uD(10.5), textDecoration: 'none' }}>Privacy Policy</a>
+            <span style={{ color: '#E2D7C2', opacity: 0.4, fontSize: uD(10) }}>|</span>
+            <a href="#" style={{ color: '#E2D7C2', fontSize: uD(10.5), textDecoration: 'none' }}>Terms &amp; Conditions</a>
+            <span style={{ color: '#E2D7C2', opacity: 0.4, fontSize: uD(10) }}>|</span>
+            <a href="#" style={{ color: '#E2D7C2', fontSize: uD(10.5), textDecoration: 'none' }}>Shipping &amp; Refund Policy</a>
           </div>
         </footer>
+      </section>
+
+
+      {/* ══════════════════════════════════════════════════════════════════
+          MOBILE VIEW (width <= 768px): 480 x 480 Balanced Mobile Stage
+          - Left: Contact Info Card (Email, Phone, Address, Socials)
+          - Right: 3D Bihar Map (placed where message form was)
+          - Footer: Clean copyright & policy links
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="ct-stage ct-mobile-only" aria-label="Get in Touch">
+        {/* Mobile Header */}
+        <motion.div
+          style={{ position: 'absolute', left: uM(18), top: uM(14), right: uM(18), zIndex: 2 }}
+          initial={reducedMotion ? {} : { opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{ duration: 0.65, ease: 'easeOut' }}
+        >
+          <h2
+            style={{
+              fontFamily: FONT_SERIF,
+              fontSize: uM(22),
+              fontWeight: 700,
+              color: '#2D2016',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              lineHeight: 1.1,
+              margin: 0,
+            }}
+          >
+            GET IN TOUCH
+          </h2>
+          <p
+            style={{
+              fontFamily: FONT_SANS,
+              fontSize: uM(11.5),
+              color: '#55483D',
+              margin: `${uM(4)} 0 0`,
+              lineHeight: 1.4,
+            }}
+          >
+            Have questions about our products or want to say hello? Reach out to us.
+          </p>
+        </motion.div>
+
+        {/* ── MOBILE CARD: Contact Info Card (Left) ── */}
+        <motion.div
+          style={{
+            ...boxM(16, 88, 224, 275),
+            background: 'rgba(255, 255, 255, 0.88)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            border: '1.5px solid rgba(255, 255, 255, 0.95)',
+            borderRadius: uM(14),
+            padding: `${uM(12)} ${uM(12)}`,
+            boxShadow: '0 10px 24px rgba(50, 35, 15, 0.07)',
+            boxSizing: 'border-box',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            zIndex: 2,
+          }}
+          initial={reducedMotion ? {} : { opacity: 0, x: -45, y: 20, scale: 0.93 }}
+          whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.08,
+          }}
+        >
+          {CONTACT_ITEMS.map((item) => (
+            <div
+              key={item.label}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingBottom: uM(8),
+                borderBottom: '1px solid rgba(215, 200, 175, 0.35)',
+              }}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', gap: uM(1) }}>
+                <span style={{ fontSize: uM(9), fontWeight: 600, color: '#7D7164' }}>{item.label}</span>
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    style={{
+                      fontSize: uM(10.5),
+                      fontWeight: 700,
+                      color: '#241A13',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {item.value}
+                  </a>
+                ) : (
+                  <span style={{ fontSize: uM(10.5), fontWeight: 700, color: '#241A13' }}>{item.value}</span>
+                )}
+              </div>
+              <div style={{ width: uM(24), height: uM(24), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {item.icon}
+              </div>
+            </div>
+          ))}
+
+          {/* Follow Us Pill on Mobile */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: uM(2) }}>
+            <span style={{ fontSize: uM(10.5), fontWeight: 700, color: '#241A13' }}>Follow Us</span>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: uM(6),
+                background: '#D1BE9C',
+                padding: `${uM(4)} ${uM(8)}`,
+                borderRadius: '999px',
+                boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.14)',
+              }}
+            >
+              <a href="#" aria-label="Instagram" style={{ width: uM(18), height: uM(18), display: 'flex', alignItems: 'center' }}><InstagramIcon /></a>
+              <a href="#" aria-label="Facebook" style={{ width: uM(18), height: uM(18), display: 'flex', alignItems: 'center' }}><FacebookIcon /></a>
+              <a href="#" aria-label="YouTube" style={{ width: uM(18), height: uM(18), display: 'flex', alignItems: 'center' }}><YouTubeIcon /></a>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── MOBILE MAP: 3D Bihar Map (Placed in the right slot, replacing the form) ── */}
+        <motion.div
+          style={{ ...boxM(248, 88, 222, 275), zIndex: 2 }}
+          initial={reducedMotion ? {} : { opacity: 0, x: 45, y: 20, scale: 0.93 }}
+          whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.05 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.16,
+          }}
+        >
+          <img
+            src={biharMapClean}
+            alt="3D map of Bihar"
+            className="ct-map-graphic"
+            draggable={false}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              userSelect: 'none',
+              mixBlendMode: 'multiply',
+              WebkitMaskImage: 'radial-gradient(closest-side, black 78%, transparent 100%)',
+              maskImage: 'radial-gradient(closest-side, black 78%, transparent 100%)',
+            }}
+          />
+        </motion.div>
+
+        {/* Mobile Footer */}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: uM(10),
+            left: uM(16),
+            right: uM(16),
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: uM(4),
+            borderTop: '1px solid rgba(85, 72, 61, 0.2)',
+            paddingTop: uM(8),
+            zIndex: 1,
+          }}
+        >
+          <div style={{ fontSize: uM(9.5), color: '#55483D', opacity: 0.85 }}>
+            © {new Date().getFullYear()} EnjoyEat Makhana. All rights reserved.
+          </div>
+          <div style={{ display: 'flex', gap: uM(10), fontSize: uM(9), color: '#747A55' }}>
+            <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Privacy Policy</a>
+            <span>•</span>
+            <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Terms</a>
+            <span>•</span>
+            <a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Shipping</a>
+          </div>
+        </div>
       </section>
     </div>
   );
@@ -335,13 +549,38 @@ const CSS = `
   width: 100%;
   background: #EFE7D6;
   overflow: hidden;
+  position: relative;
 }
 .ct-stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 1024 / 572;
-  container-type: inline-size;
-  overflow: hidden;
   user-select: none;
+}
+
+/* Desktop layout (width > 768px) */
+@media (min-width: 769px) {
+  .ct-desktop-only {
+    display: block;
+    aspect-ratio: 1024 / 572;
+    container-type: inline-size;
+    overflow: hidden;
+  }
+  .ct-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Mobile layout (width <= 768px) */
+@media (max-width: 768px) {
+  .ct-desktop-only {
+    display: none !important;
+  }
+  .ct-mobile-only {
+    display: block;
+    aspect-ratio: 480 / 480;
+    container-type: inline-size;
+    overflow: hidden;
+    padding: 16px 0 24px;
+  }
 }
 `;

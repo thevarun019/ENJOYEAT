@@ -23,24 +23,33 @@ import el_bowl from './assets/hero/el_bowl.png';
 import el_m11 from './assets/hero/el_m11.png';
 import el_m10 from './assets/hero/el_m10.png';
 
-/* 1024 x 559 stage matching design; reference pixels converted to cqw so it scales seamlessly */
-const u = (n) => `${((n / 1024) * 100).toFixed(4)}cqw`;
-const box = (x, y, w, h) => ({
+/* ── Desktop Canvas: 1024 x 559 ── */
+const uD = (n) => `${((n / 1024) * 100).toFixed(4)}cqw`;
+const boxD = (x, y, w, h) => ({
   position: 'absolute',
-  left: u(x),
-  top: u(y),
-  ...(w != null && { width: u(w) }),
-  ...(h != null && { height: u(h) }),
+  left: uD(x),
+  top: uD(y),
+  ...(w != null && { width: uD(w) }),
+  ...(h != null && { height: uD(h) }),
+});
+
+/* ── Mobile Canvas: 480 x 640 Vertical Layout ── */
+const uM = (n) => `${((n / 480) * 100).toFixed(4)}cqw`;
+const boxM = (x, y, w, h) => ({
+  position: 'absolute',
+  left: uM(x),
+  top: uM(y),
+  ...(w != null && { width: uM(w) }),
+  ...(h != null && { height: uM(h) }),
 });
 
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap');
 .ee-wrap {
   width: 100%;
   background: #EFE7D6;
   overflow: hidden;
   padding-top: 72px;
-  scroll-snap-align: start;
   min-height: 100svh;
   display: flex;
   align-items: center;
@@ -56,8 +65,6 @@ const CSS = `
 .ee-stage {
   position: relative;
   width: 100%;
-  aspect-ratio: 1024/559;
-  container-type: inline-size;
   background: #EFE7D6;
   font-family: 'Inter', system-ui, sans-serif;
   color: #2b2019;
@@ -81,7 +88,30 @@ const CSS = `
   text-decoration: none;
 }
 .ee-btn:hover { background: #42594a; transform: translateY(-1px); }
-.ee-scene { position: absolute; inset: 0; perspective: 1200px; }
+
+/* Desktop vs Mobile stages */
+@media (min-width: 769px) {
+  .ee-desktop-only {
+    display: block;
+    aspect-ratio: 1024 / 559;
+    container-type: inline-size;
+    overflow: hidden;
+  }
+  .ee-mobile-only {
+    display: none !important;
+  }
+}
+@media (max-width: 768px) {
+  .ee-desktop-only {
+    display: none !important;
+  }
+  .ee-mobile-only {
+    display: block;
+    aspect-ratio: 480 / 640;
+    container-type: inline-size;
+    overflow: hidden;
+  }
+}
 `;
 
 const DECO = {
@@ -123,7 +153,7 @@ const FLOATERS = {
   leafR: [0.2, 7],
 };
 
-function Deco({ id, style = {} }) {
+function DecoD({ id, style = {} }) {
   const item = DECO[id];
   const floater = FLOATERS[id];
 
@@ -133,7 +163,7 @@ function Deco({ id, style = {} }) {
         src={item.img}
         alt=""
         draggable={false}
-        style={{ ...box(item.x, item.y, item.w, item.h), ...style }}
+        style={{ ...boxD(item.x, item.y, item.w, item.h), ...style }}
         animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
         transition={{
           duration: 4.5,
@@ -150,7 +180,7 @@ function Deco({ id, style = {} }) {
       src={item.img}
       alt=""
       draggable={false}
-      style={{ ...box(item.x, item.y, item.w, item.h), ...style }}
+      style={{ ...boxD(item.x, item.y, item.w, item.h), ...style }}
     />
   );
 }
@@ -160,25 +190,21 @@ export default function HeroSection() {
   const [kraftLanded, setKraftLanded] = useState(false);
   const reducedMotion = useReducedMotionSafe();
 
-  // Scroll Exit Progress (only active on desktop to prevent mobile vanishing)
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   });
 
-  // Spring smoothing for 60fps natural feel
   const smoothScroll = useSpring(scrollYProgress, {
     stiffness: 90,
     damping: 24,
     restDelta: 0.001,
   });
 
-  // Exit transforms (Page 1 -> Page 2)
   const isExiting = useTransform(smoothScroll, (v) => v > 0.8);
 
-  // 1. Staggered Pouches Exit:
-  // gold [0, 0.6], green [0, 0.5], kraft [0, 0.55]
+  // Desktop Exit transforms
   const greenExitY = useTransform(smoothScroll, [0, 0.5], [0, -140]);
   const greenExitScale = useTransform(smoothScroll, [0, 0.5], [1, 0.92]);
   const greenExitOpacity = useTransform(smoothScroll, [0, 0.5], [1, 0]);
@@ -191,27 +217,24 @@ export default function HeroSection() {
   const kraftExitScale = useTransform(smoothScroll, [0, 0.55], [1, 0.92]);
   const kraftExitOpacity = useTransform(smoothScroll, [0, 0.55], [1, 0]);
 
-  // 2. Loose Makhana & Leaves Exit (Faster for parallax depth):
   const decoExitY = useTransform(smoothScroll, [0, 0.6], [0, -240]);
   const decoExitOpacity = useTransform(smoothScroll, [0, 0.5], [1, 0]);
 
-  // 3. Heading & Buttons Exit [0.1, 0.7]:
   const textExitY = useTransform(smoothScroll, [0.1, 0.7], [0, -60]);
   const textExitOpacity = useTransform(smoothScroll, [0.1, 0.7], [1, 0]);
 
-  // 4. Terracotta Bowl Exit [0.2, 0.8] (Sinks downward):
   const bowlExitY = useTransform(smoothScroll, [0.2, 0.8], [0, 80]);
   const bowlExitOpacity = useTransform(smoothScroll, [0.2, 0.8], [1, 0]);
-
-  // Arrow visibility (fades out as section exits)
-  const arrowOpacity = useTransform(smoothScroll, [0, 0.25], [1, 0]);
 
   return (
     <div className="ee-wrap" ref={sectionRef}>
       <style>{CSS}</style>
-      <section id="hero" className="ee-stage" aria-label="Enjoyeat Makhana hero">
 
-        {/* ── Background Decorative Elements (Parallax Exit Wrapper) ── */}
+      {/* ══════════════════════════════════════════════════════════════════
+          DESKTOP VIEW (width >= 769px): 1024 x 559 Wide Canvas
+      ══════════════════════════════════════════════════════════════════ */}
+      <section id="hero" className="ee-stage ee-desktop-only" aria-label="Enjoyeat Makhana hero">
+        {/* Parallax Background Deco */}
         <motion.div
           style={{
             position: 'absolute',
@@ -224,7 +247,7 @@ export default function HeroSection() {
           {Object.keys(DECO)
             .filter((id) => id !== 'bowl' && id !== 'm11')
             .map((id) => (
-              <Deco key={id} id={id} />
+              <DecoD key={id} id={id} />
             ))}
         </motion.div>
 
@@ -241,16 +264,15 @@ export default function HeroSection() {
             <div
               key={x}
               style={{
-                ...box(x, 458, w, 14),
+                ...boxD(x, 458, w, 14),
                 background: 'radial-gradient(ellipse, rgba(70,55,30,.28), transparent 70%)',
               }}
             />
           ))}
         </motion.div>
 
-        {/* ── 3D Interactive Pouches Scene (Independent Exit Wrappers) ── */}
+        {/* 3D Pouches Scene */}
         <div
-          className="ee-scene"
           style={{
             position: 'absolute',
             inset: 0,
@@ -259,7 +281,7 @@ export default function HeroSection() {
             pointerEvents: isExiting ? 'none' : 'auto',
           }}
         >
-          {/* 1. Left Green Pouch Exit Wrapper */}
+          {/* Left Green Pouch */}
           <motion.div
             style={{
               position: 'absolute',
@@ -271,116 +293,30 @@ export default function HeroSection() {
               pointerEvents: 'none',
             }}
           >
-            {/* Step 1 Inner Motion */}
             <motion.div
               style={{
-                ...box(313.5, 270, 131, 186),
+                ...boxD(313.5, 270, 131, 186),
                 zIndex: 10,
                 cursor: 'pointer',
                 pointerEvents: 'auto',
                 transformStyle: 'preserve-3d',
               }}
               initial={{ opacity: 0, y: 90, rotate: 0, scale: 0.85 }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                rotate: -8,
-                scale: 1,
-              }}
+              whileInView={{ opacity: 1, y: 0, rotate: -8, scale: 1 }}
               viewport={{ once: false, amount: 0.3 }}
-              transition={{
-                type: 'spring',
-                stiffness: 70,
-                damping: 14,
-                delay: 0.25,
-              }}
-              whileHover={{
-                scale: 1.08,
-                rotate: 0,
-                rotateY: 15,
-                y: -15,
-                zIndex: 40,
-                transition: { type: 'spring', stiffness: 220, damping: 15 },
-              }}
+              transition={{ type: 'spring', stiffness: 70, damping: 14, delay: 0.25 }}
+              whileHover={{ scale: 1.08, rotate: 0, rotateY: 15 }}
             >
-              <motion.img
+              <img
                 src={pouchGreen}
-                alt="Enjoyeat Makhana Green Pouch"
+                alt="Enjoyeat Salted Makhana"
                 draggable={false}
-                className="w-full h-full object-contain drop-shadow-[0_25px_25px_rgba(0,0,0,0.28)]"
-                animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 3.6,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.25,
-                }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </motion.div>
           </motion.div>
 
-          {/* 2. Right Kraft Pouch Exit Wrapper */}
-          <motion.div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              y: reducedMotion ? 0 : kraftExitY,
-              scale: reducedMotion ? 1 : kraftExitScale,
-              opacity: isMobile ? 1 : kraftExitOpacity,
-              transformStyle: 'preserve-3d',
-              pointerEvents: 'none',
-            }}
-          >
-            {/* Step 1 Inner Motion */}
-            <motion.div
-              style={{
-                ...box(577, 270, 133, 186),
-                zIndex: 10,
-                cursor: 'pointer',
-                pointerEvents: 'auto',
-                transformStyle: 'preserve-3d',
-              }}
-              initial={{ opacity: 0, y: 90, rotate: 0, scale: 0.85 }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                rotate: 8,
-                scale: 1,
-              }}
-              viewport={{ once: false, amount: 0.3 }}
-              transition={{
-                type: 'spring',
-                stiffness: 70,
-                damping: 14,
-                delay: 0.4,
-              }}
-              onAnimationComplete={() => setKraftLanded(true)}
-              whileHover={{
-                scale: 1.08,
-                rotate: 0,
-                rotateY: -15,
-                y: -15,
-                zIndex: 40,
-                transition: { type: 'spring', stiffness: 220, damping: 15 },
-              }}
-            >
-              <motion.img
-                src={pouchKraft}
-                alt="Enjoyeat Makhana Kraft Pouch"
-                draggable={false}
-                className="w-full h-full object-contain drop-shadow-[0_25px_25px_rgba(0,0,0,0.28)]"
-                animate={{ y: [0, -9, 0] }}
-                transition={{
-                  duration: 3.8,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.8,
-                }}
-              />
-            </motion.div>
-          </motion.div>
-
-          {/* 3. Center Gold Pouch Exit Wrapper */}
+          {/* Center Gold Pouch */}
           <motion.div
             style={{
               position: 'absolute',
@@ -392,54 +328,65 @@ export default function HeroSection() {
               pointerEvents: 'none',
             }}
           >
-            {/* Step 1 Inner Motion */}
             <motion.div
               style={{
-                ...box(446, 263, 136, 192),
+                ...boxD(445, 245, 136, 211),
                 zIndex: 20,
                 cursor: 'pointer',
                 pointerEvents: 'auto',
                 transformStyle: 'preserve-3d',
               }}
-              initial={{ opacity: 0, y: 100, scale: 0.85 }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                scale: 1.06,
-              }}
+              initial={{ opacity: 0, y: 120, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: false, amount: 0.3 }}
-              transition={{
-                type: 'spring',
-                stiffness: 75,
-                damping: 13,
-                delay: 0.1,
-              }}
-              whileHover={{
-                scale: 1.14,
-                rotateY: -12,
-                y: -15,
-                zIndex: 40,
-                transition: { type: 'spring', stiffness: 220, damping: 15 },
-              }}
+              transition={{ type: 'spring', stiffness: 80, damping: 12, delay: 0.1 }}
+              whileHover={{ scale: 1.1, rotateY: 12 }}
             >
-              <motion.img
+              <img
                 src={pouchGold}
-                alt="Enjoyeat Makhana Gold Pouch"
+                alt="Enjoyeat Sattvik Makhana"
                 draggable={false}
-                className="w-full h-full object-contain drop-shadow-[0_25px_25px_rgba(0,0,0,0.28)]"
-                animate={{ y: [0, -12, 0] }}
-                transition={{
-                  duration: 3.2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.4,
-                }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            </motion.div>
+          </motion.div>
+
+          {/* Right Kraft Pouch */}
+          <motion.div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              y: reducedMotion ? 0 : kraftExitY,
+              scale: reducedMotion ? 1 : kraftExitScale,
+              opacity: isMobile ? 1 : kraftExitOpacity,
+              transformStyle: 'preserve-3d',
+              pointerEvents: 'none',
+            }}
+          >
+            <motion.div
+              style={{
+                ...boxD(587.5, 273, 127.5, 183),
+                zIndex: 10,
+                cursor: 'pointer',
+                pointerEvents: 'auto',
+                transformStyle: 'preserve-3d',
+              }}
+              initial={{ opacity: 0, y: -400, rotate: -15, scale: 0.7 }}
+              animate={{ opacity: 1, y: 0, rotate: 8, scale: 1 }}
+              transition={{ type: 'spring', stiffness: 60, damping: 11, delay: 0.35 }}
+              whileHover={{ scale: 1.08, rotate: 0, rotateY: -15 }}
+            >
+              <img
+                src={pouchKraft}
+                alt="Enjoyeat Classic Makhana"
+                draggable={false}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </motion.div>
           </motion.div>
         </div>
 
-        {/* ── Terracotta Bowl Exit Wrapper (Sinks downward over [0.2, 0.8]) ── */}
+        {/* Terracotta Bowl */}
         <motion.div
           style={{
             position: 'absolute',
@@ -452,15 +399,15 @@ export default function HeroSection() {
         >
           <div
             style={{
-              ...box(770, 470, 120, 14),
+              ...boxD(770, 470, 120, 14),
               background: 'radial-gradient(ellipse, rgba(70,55,30,.28), transparent 70%)',
             }}
           />
-          <Deco id="bowl" />
-          <Deco id="m11" />
+          <DecoD id="bowl" />
+          <DecoD id="m11" />
         </motion.div>
 
-        {/* ── Headings & CTA Buttons Exit Wrapper [0.1, 0.7] ── */}
+        {/* Headings & CTA Buttons */}
         <motion.div
           style={{
             position: 'absolute',
@@ -477,10 +424,10 @@ export default function HeroSection() {
               position: 'absolute',
               left: 0,
               right: 0,
-              top: u(84),
+              top: uD(84),
               margin: 0,
               textAlign: 'center',
-              fontSize: u(37),
+              fontSize: uD(37),
               fontWeight: 600,
               letterSpacing: '.012em',
               lineHeight: 1.15,
@@ -494,9 +441,9 @@ export default function HeroSection() {
               position: 'absolute',
               left: 0,
               right: 0,
-              top: u(121),
+              top: uD(121),
               textAlign: 'center',
-              fontSize: u(41),
+              fontSize: uD(41),
               lineHeight: 1.2,
             }}
           >
@@ -507,16 +454,15 @@ export default function HeroSection() {
               position: 'absolute',
               left: 0,
               right: 0,
-              top: u(171),
+              top: uD(171),
               margin: 0,
               textAlign: 'center',
-              fontSize: u(10.9),
+              fontSize: uD(10.9),
             }}
           >
             Experience the pure goodness of authentic premium raw makhana, sourced fresh and made for mindful everyday snacking.
           </p>
 
-          {/* Call-to-action buttons */}
           <a
             href="#shop"
             className="ee-btn"
@@ -526,9 +472,9 @@ export default function HeroSection() {
               if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
             style={{
-              ...box(343, 203, 196, 35),
-              borderRadius: u(4),
-              fontSize: u(11.8),
+              ...boxD(343, 203, 196, 35),
+              borderRadius: uD(4),
+              fontSize: uD(11.8),
               fontWeight: 500,
               letterSpacing: '.05em',
               zIndex: 50,
@@ -545,16 +491,210 @@ export default function HeroSection() {
               if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }}
             style={{
-              left: u(551),
-              top: u(212),
-              fontSize: u(13.2),
+              left: uD(551),
+              top: uD(212),
+              fontSize: uD(13.2),
               zIndex: 50,
             }}
           >
             Discover Our Story →
           </a>
         </motion.div>
+      </section>
 
+
+      {/* ══════════════════════════════════════════════════════════════════
+          MOBILE VIEW (width <= 768px): 480 x 640 Responsive Vertical Stage
+          - Headings & CTAs on top with crisp, readable typography
+          - Prominent 3D Pouches centerpiece below with bowl & floaters
+          - Clean vertical composition eliminating horizontal squishing!
+      ══════════════════════════════════════════════════════════════════ */}
+      <section className="ee-stage ee-mobile-only" aria-label="Enjoyeat Makhana hero">
+        {/* Floating herbs/makhana background */}
+        <img src={el_bigL} alt="" aria-hidden style={{ ...boxM(10, 140, 52, 58), pointerEvents: 'none', opacity: 0.6 }} />
+        <img src={el_bigR} alt="" aria-hidden style={{ ...boxM(420, 130, 50, 48), pointerEvents: 'none', opacity: 0.6 }} />
+        <img src={el_m1} alt="" aria-hidden style={{ ...boxM(35, 230, 22, 26), pointerEvents: 'none' }} />
+        <img src={el_m4} alt="" aria-hidden style={{ ...boxM(425, 250, 26, 20), pointerEvents: 'none' }} />
+        <img src={el_basil} alt="" aria-hidden style={{ ...boxM(15, 410, 32, 32), pointerEvents: 'none', opacity: 0.7 }} />
+        <img src={el_leafR} alt="" aria-hidden style={{ ...boxM(430, 390, 34, 36), pointerEvents: 'none', opacity: 0.7 }} />
+
+        {/* Mobile Header Block */}
+        <motion.div
+          style={{ position: 'absolute', left: uM(16), right: uM(16), top: uM(14), zIndex: 30, textAlign: 'center' }}
+          initial={reducedMotion ? {} : { opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1
+            className="ee-serif"
+            style={{
+              fontSize: uM(23),
+              fontWeight: 700,
+              letterSpacing: '.012em',
+              lineHeight: 1.15,
+              margin: 0,
+              color: '#2b2019',
+            }}
+          >
+            HEALTHY SNACKING, HAPPIER LIVING
+          </h1>
+          <div
+            className="ee-script"
+            style={{
+              fontSize: uM(27),
+              lineHeight: 1.2,
+              marginTop: uM(3),
+              color: '#3d2a1f',
+            }}
+          >
+            and Sattvik Makhana
+          </div>
+          <p
+            style={{
+              fontSize: uM(11),
+              color: '#55483D',
+              margin: `${uM(6)} auto 0`,
+              maxWidth: uM(420),
+              lineHeight: 1.4,
+            }}
+          >
+            Experience the pure goodness of authentic premium raw makhana, sourced fresh and made for mindful everyday snacking.
+          </p>
+
+          {/* CTA Buttons in a clean touch-friendly row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: uM(14), marginTop: uM(12) }}>
+            <a
+              href="#shop"
+              className="ee-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('shop');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              style={{
+                position: 'relative',
+                padding: `${uM(8)} ${uM(18)}`,
+                borderRadius: uM(6),
+                fontSize: uM(11),
+                fontWeight: 600,
+                letterSpacing: '.04em',
+              }}
+            >
+              EXPLORE OUR PRODUCTS
+            </a>
+            <a
+              href="#our-story"
+              className="ee-link"
+              onClick={(e) => {
+                e.preventDefault();
+                const el = document.getElementById('our-story');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              style={{
+                position: 'relative',
+                fontSize: uM(12),
+                fontWeight: 600,
+              }}
+            >
+              Discover Our Story →
+            </a>
+          </div>
+        </motion.div>
+
+        {/* ── Mobile 3D Pouches Centerpiece (Prominent Vertical Focus) ── */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+          {/* Radial ground shadows */}
+          <div
+            style={{
+              ...boxM(140, 480, 200, 18),
+              background: 'radial-gradient(ellipse, rgba(70,55,30,.28), transparent 70%)',
+              zIndex: 5,
+            }}
+          />
+
+          {/* Left Green Pouch */}
+          <motion.div
+            style={{
+              ...boxM(25, 270, 140, 200),
+              zIndex: 10,
+              transform: 'rotate(-8deg)',
+              pointerEvents: 'auto',
+            }}
+            initial={reducedMotion ? {} : { opacity: 0, x: -35, y: 30 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 75, damping: 14, delay: 0.15 }}
+          >
+            <img
+              src={pouchGreen}
+              alt="Enjoyeat Salted Makhana"
+              draggable={false}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          </motion.div>
+
+          {/* Center Gold Pouch (Hero Flagship) */}
+          <motion.div
+            style={{
+              ...boxM(155, 230, 170, 245),
+              zIndex: 20,
+              pointerEvents: 'auto',
+            }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 35, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 80, damping: 13, delay: 0.05 }}
+          >
+            <img
+              src={pouchGold}
+              alt="Enjoyeat Sattvik Makhana"
+              draggable={false}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          </motion.div>
+
+          {/* Right Kraft Pouch */}
+          <motion.div
+            style={{
+              ...boxM(315, 270, 140, 200),
+              zIndex: 10,
+              transform: 'rotate(8deg)',
+              pointerEvents: 'auto',
+            }}
+            initial={reducedMotion ? {} : { opacity: 0, x: 35, y: 30 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 75, damping: 14, delay: 0.22 }}
+          >
+            <img
+              src={pouchKraft}
+              alt="Enjoyeat Classic Makhana"
+              draggable={false}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          </motion.div>
+
+          {/* Terracotta Bowl with Makhana in Foreground */}
+          <motion.div
+            style={{
+              ...boxM(285, 420, 155, 115),
+              zIndex: 25,
+              pointerEvents: 'auto',
+            }}
+            initial={reducedMotion ? {} : { opacity: 0, y: 25, scale: 0.92 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 75, damping: 14, delay: 0.3 }}
+          >
+            <img
+              src={el_bowl}
+              alt="Makhana Bowl"
+              draggable={false}
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          </motion.div>
+        </div>
       </section>
     </div>
   );
