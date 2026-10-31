@@ -7,6 +7,7 @@ import StoryToShopBurstWrapper from './components/StoryToShopBurstWrapper';
 import BenefitsSection from './BenefitsSection';
 import WholesaleSection from './WholesaleSection';
 import ContactSection from './ContactSection';
+import MobileAlternatingSection from './components/MobileAlternatingSection';
 import './App.css';
 
 export default function App() {
@@ -15,25 +16,38 @@ export default function App() {
       {/* Site-wide navigation bar */}
       <Navbar />
 
-      {/* Main Pages */}
+      {/* Main Pages with Alternating Mobile Pop-Up Transitions */}
       <main className="w-full overflow-x-hidden">
-        {/* Page 1: Hero */}
+        {/* Page 1: Hero (Natural Entry) */}
         <HeroSection />
 
-        {/* Transition Container: Page 2 (Story) + Page 3 (Shop) with Popcorn Burst */}
+        {/* Transition Container: Page 2 (Story) + Page 3 (Shop) with Desktop Popcorn Burst */}
         <StoryToShopBurstWrapper>
-          <EnjoyeatStory />
-          <ChooseCrunchPage />
+          {/* Page 2: Our Story — Pops up from the RIGHT side on mobile */}
+          <MobileAlternatingSection direction="right" id="story-mobile-wrap">
+            <EnjoyeatStory />
+          </MobileAlternatingSection>
+
+          {/* Page 3: Shop — Pops up from the LEFT side on mobile */}
+          <MobileAlternatingSection direction="left" id="shop-mobile-wrap">
+            <ChooseCrunchPage />
+          </MobileAlternatingSection>
         </StoryToShopBurstWrapper>
 
-        {/* Page 4: The Goodness of Sattvik Makhana (Benefits) */}
-        <BenefitsSection />
+        {/* Page 4: Benefits — Pops up from the RIGHT side on mobile */}
+        <MobileAlternatingSection direction="right" id="benefits-mobile-wrap">
+          <BenefitsSection />
+        </MobileAlternatingSection>
 
-        {/* Page 5: Partner With Us (Wholesale) */}
-        <WholesaleSection />
+        {/* Page 5: Wholesale — Pops up from the LEFT side on mobile */}
+        <MobileAlternatingSection direction="left" id="wholesale-mobile-wrap">
+          <WholesaleSection />
+        </MobileAlternatingSection>
 
-        {/* Page 6: Get in Touch + Footer (Contact) */}
-        <ContactSection />
+        {/* Page 6: Contact — Pops up from the RIGHT side on mobile */}
+        <MobileAlternatingSection direction="right" id="contact-mobile-wrap">
+          <ContactSection />
+        </MobileAlternatingSection>
       </main>
     </div>
   );

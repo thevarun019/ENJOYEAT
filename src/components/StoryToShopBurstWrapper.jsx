@@ -4,9 +4,9 @@ import MakhanaPopcornExplosion from "./MakhanaPopcornExplosion";
 
 /**
  * StoryToShopBurstWrapper:
- * Ensures the Makhana Popcorn Explosion ONLY fires when scrolling DOWN.
- * When scrolling UP, the explosion is completely deactivated/hidden,
- * so the page behaves normally without particles flying backwards across the screen!
+ * Ensures the Makhana Popcorn Explosion ONLY fires when scrolling DOWN on desktop.
+ * On mobile devices, the -100vh overlay is disabled so there is no giant blank distance
+ * between Page 2 (Our Story) and Page 3 (Shop)!
  */
 export default function StoryToShopBurstWrapper({ children }) {
   const triggerRef = useRef(null);
@@ -42,11 +42,20 @@ export default function StoryToShopBurstWrapper({ children }) {
 
   return (
     <div ref={triggerRef} style={{ position: "relative", width: "100%" }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .burst-desktop-overlay {
+            display: none !important;
+          }
+        }
+      `}</style>
+
       {/* Both sections render naturally with full visibility and interaction */}
       {children}
 
-      {/* Burst explosion: ONLY visible when scrolling DOWN */}
+      {/* Burst explosion: active on desktop when scrolling DOWN */}
       <div
+        className="burst-desktop-overlay"
         style={{
           position: "sticky",
           bottom: 0,

@@ -45,6 +45,14 @@ const CSS = `
   display: flex;
   align-items: center;
 }
+@media (max-width: 768px) {
+  .ee-wrap {
+    min-height: auto;
+    padding-top: 64px;
+    padding-bottom: 24px;
+    display: block;
+  }
+}
 .ee-stage {
   position: relative;
   width: 100%;
@@ -152,7 +160,8 @@ export default function HeroSection() {
   const [kraftLanded, setKraftLanded] = useState(false);
   const reducedMotion = useReducedMotionSafe();
 
-  // Scroll Exit Progress
+  // Scroll Exit Progress (only active on desktop to prevent mobile vanishing)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
@@ -208,7 +217,7 @@ export default function HeroSection() {
             position: 'absolute',
             inset: 0,
             y: reducedMotion ? 0 : decoExitY,
-            opacity: decoExitOpacity,
+            opacity: isMobile ? 1 : decoExitOpacity,
             pointerEvents: isExiting ? 'none' : 'auto',
           }}
         >
@@ -224,7 +233,7 @@ export default function HeroSection() {
           style={{
             position: 'absolute',
             inset: 0,
-            opacity: goldExitOpacity,
+            opacity: isMobile ? 1 : goldExitOpacity,
             pointerEvents: 'none',
           }}
         >
@@ -257,7 +266,7 @@ export default function HeroSection() {
               inset: 0,
               y: reducedMotion ? 0 : greenExitY,
               scale: reducedMotion ? 1 : greenExitScale,
-              opacity: greenExitOpacity,
+              opacity: isMobile ? 1 : greenExitOpacity,
               transformStyle: 'preserve-3d',
               pointerEvents: 'none',
             }}
@@ -317,7 +326,7 @@ export default function HeroSection() {
               inset: 0,
               y: reducedMotion ? 0 : kraftExitY,
               scale: reducedMotion ? 1 : kraftExitScale,
-              opacity: kraftExitOpacity,
+              opacity: isMobile ? 1 : kraftExitOpacity,
               transformStyle: 'preserve-3d',
               pointerEvents: 'none',
             }}
@@ -378,7 +387,7 @@ export default function HeroSection() {
               inset: 0,
               y: reducedMotion ? 0 : goldExitY,
               scale: reducedMotion ? 1 : goldExitScale,
-              opacity: goldExitOpacity,
+              opacity: isMobile ? 1 : goldExitOpacity,
               transformStyle: 'preserve-3d',
               pointerEvents: 'none',
             }}
@@ -436,7 +445,7 @@ export default function HeroSection() {
             position: 'absolute',
             inset: 0,
             y: reducedMotion ? 0 : bowlExitY,
-            opacity: bowlExitOpacity,
+            opacity: isMobile ? 1 : bowlExitOpacity,
             zIndex: 25,
             pointerEvents: isExiting ? 'none' : 'auto',
           }}
@@ -457,7 +466,7 @@ export default function HeroSection() {
             position: 'absolute',
             inset: 0,
             y: reducedMotion ? 0 : textExitY,
-            opacity: textExitOpacity,
+            opacity: isMobile ? 1 : textExitOpacity,
             zIndex: 60,
             pointerEvents: 'auto',
           }}

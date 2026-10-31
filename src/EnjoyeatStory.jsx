@@ -32,6 +32,13 @@ const CSS = `
   display: flex;
   align-items: center;
 }
+@media (max-width: 768px) {
+  .es-wrap {
+    min-height: auto;
+    padding: 24px 0;
+    display: block;
+  }
+}
 .es-stage {
   position: relative;
   width: 100%;
@@ -103,7 +110,7 @@ export default function EnjoyeatStory() {
           style={{ ...box(696, 86, 42, 23), pointerEvents: 'none' }}
           initial={{ scale: reducedMotion ? 1 : 0, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         />
         <motion.img
@@ -113,7 +120,7 @@ export default function EnjoyeatStory() {
           style={{ ...box(730, 388, 367, 261), pointerEvents: 'none', filter: 'blur(.15cqw)' }}
           initial={{ scale: reducedMotion ? 1 : 0.85, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.8, delay: 0.45 }}
         />
 
@@ -148,7 +155,7 @@ export default function EnjoyeatStory() {
           className="es-serif"
           initial={{ y: reducedMotion ? 0 : 40, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.8, ease: [0.2, 0.8, 0.2, 1] }}
           style={{
             position: 'absolute',
@@ -168,7 +175,7 @@ export default function EnjoyeatStory() {
         <motion.p
           initial={{ y: reducedMotion ? 0 : 25, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.8, delay: 0.1, ease: [0.2, 0.8, 0.2, 1] }}
           style={{
             position: 'absolute',
@@ -187,7 +194,7 @@ export default function EnjoyeatStory() {
         <motion.div
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.9, delay: 0.2, ease: 'easeInOut' }}
           style={{
             ...box(226, 321, 426, 0),
@@ -204,7 +211,7 @@ export default function EnjoyeatStory() {
               key={c.label}
               initial={{ y: reducedMotion ? 0 : 60, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: false, amount: 0.35 }}
+              viewport={{ once: true, amount: 0.15 }}
               transition={{
                 duration: 0.7,
                 delay: 0.15 * i + 0.12,
@@ -294,7 +301,7 @@ export default function EnjoyeatStory() {
             scale: 1,
             opacity: 1,
           }}
-          viewport={{ once: false, amount: 0.35 }}
+          viewport={{ once: true, amount: 0.15 }}
           transition={{
             type: 'spring',
             stiffness: 80,

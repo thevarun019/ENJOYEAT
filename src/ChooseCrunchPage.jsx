@@ -120,7 +120,7 @@ export default function ChooseCrunchPage() {
         <motion.div
           initial={reducedMotion ? {} : { opacity: 0, scale: 0.75, y: 120 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 75,
@@ -145,10 +145,10 @@ export default function ChooseCrunchPage() {
         {/* ── Centre Hero Centerpiece: One-Way Pop-Up Bounce on First Scroll Down ── */}
         <motion.div
           className="abs ctr"
-          style={pos(698, 480, 1180)}
-          initial={reducedMotion ? {} : { opacity: 0, scale: 0.65, y: 160 }}
+          style={{ ...pos(698, 460, 1180), zIndex: 10 }}
+          initial={reducedMotion ? {} : { opacity: 0, scale: 0.9, y: 35 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 85,
@@ -177,7 +177,7 @@ export default function ChooseCrunchPage() {
         <motion.div
           initial={reducedMotion ? {} : { opacity: 0, scale: 0.75, y: 120 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
+          viewport={{ once: true, amount: 0.05 }}
           transition={{
             type: 'spring',
             stiffness: 75,
@@ -221,6 +221,13 @@ const css = `
   display: flex;
   align-items: center;
   scroll-snap-align: start;
+}
+@media (max-width: 768px) {
+  .pg {
+    min-height: auto;
+    padding: 24px 0;
+    display: block;
+  }
 }
 .pg * { box-sizing: border-box; }
 .stage {
