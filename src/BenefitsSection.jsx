@@ -288,10 +288,15 @@ export default function BenefitsSection() {
         {/* MOBILE LEFT CARD 1: 100% Natural */}
         <motion.div
           style={{ ...boxM(14, 102, 132, 58), zIndex: 2 }}
-          initial={reducedMotion ? {} : { x: -20, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ ...easeTransition, delay: 0.1 }}
+          initial={reducedMotion ? {} : { x: -45, y: 15, opacity: 0, scale: 0.94 }}
+          whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.08,
+          }}
         >
           <img
             src={card1}
@@ -304,10 +309,15 @@ export default function BenefitsSection() {
         {/* MOBILE LEFT CARD 2: Rich in Protein & Calcium */}
         <motion.div
           style={{ ...boxM(14, 212, 132, 58), zIndex: 2 }}
-          initial={reducedMotion ? {} : { x: -20, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ ...easeTransition, delay: 0.18 }}
+          initial={reducedMotion ? {} : { x: -45, y: 15, opacity: 0, scale: 0.94 }}
+          whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.18,
+          }}
         >
           <img
             src={card2}
@@ -320,10 +330,15 @@ export default function BenefitsSection() {
         {/* MOBILE CENTER POUCH ON WOOD SLICE */}
         <motion.div
           style={{ ...boxM(152, 85, 176, 215), zIndex: 3 }}
-          initial={reducedMotion ? {} : { scale: 0.92, opacity: 0, y: 15 }}
+          initial={reducedMotion ? {} : { scale: 0.88, opacity: 0, y: 24 }}
           whileInView={{ scale: 1, opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ ...easeTransition, delay: 0.05 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 90,
+            damping: 16,
+            delay: 0.02,
+          }}
         >
           <img
             src={centerPouchStage}
@@ -343,10 +358,15 @@ export default function BenefitsSection() {
         {/* MOBILE RIGHT CARD 3: Heart & Digestion Friendly */}
         <motion.div
           style={{ ...boxM(334, 102, 132, 60), zIndex: 2 }}
-          initial={reducedMotion ? {} : { x: 20, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ ...easeTransition, delay: 0.12 }}
+          initial={reducedMotion ? {} : { x: 45, y: 15, opacity: 0, scale: 0.94 }}
+          whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.12,
+          }}
         >
           <img
             src={card3}
@@ -359,10 +379,15 @@ export default function BenefitsSection() {
         {/* MOBILE RIGHT CARD 4: The Perfect Diet Partner */}
         <motion.div
           style={{ ...boxM(334, 212, 132, 59), zIndex: 2 }}
-          initial={reducedMotion ? {} : { x: 20, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ ...easeTransition, delay: 0.22 }}
+          initial={reducedMotion ? {} : { x: 45, y: 15, opacity: 0, scale: 0.94 }}
+          whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.22,
+          }}
         >
           <img
             src={card4}

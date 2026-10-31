@@ -204,10 +204,15 @@ export default function ContactSection() {
             justifyContent: 'space-between',
             zIndex: 2,
           }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: 0.1 }}
+          initial={{ opacity: 0, x: -45, y: 15, scale: 0.94 }}
+          whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.08,
+          }}
         >
           {CONTACT_ITEMS.map((item) => (
             <div
@@ -268,10 +273,15 @@ export default function ContactSection() {
         {/* ── RIGHT: 3D Bihar Map ── */}
         <motion.div
           style={{ ...box(460, 60, 520, 430), zIndex: 1 }}
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, ease: 'easeOut', delay: 0.15 }}
+          initial={{ opacity: 0, x: 45, y: 15, scale: 0.94 }}
+          whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.15,
+          }}
         >
           <img
             src={biharMapClean}

@@ -95,9 +95,15 @@ export default function WholesaleSection() {
         {/* Pallet image with multiply blend and edge feathering */}
         <motion.div
           style={{ ...box(54, 185, 420, 320), zIndex: 1 }}
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          initial={{ opacity: 0, x: -40, y: 15, scale: 0.94 }}
+          whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.1,
+          }}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
           <img
@@ -156,10 +162,15 @@ export default function WholesaleSection() {
             display: 'flex',
             flexDirection: 'column',
           }}
-          initial={{ x: 40, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: 'easeOut', delay: 0.1 }}
+          initial={{ x: 45, y: 15, opacity: 0, scale: 0.95 }}
+          whileInView={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            type: 'spring',
+            stiffness: 85,
+            damping: 15,
+            delay: 0.12,
+          }}
         >
           <h2
             style={{
