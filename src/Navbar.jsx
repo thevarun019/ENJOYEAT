@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import lotus from "./story_lotus.png";
+import officialLogo from "./assets/enjoyeat-official-logo.png";
 
 const NAV_ITEMS = [
   { name: "Our Story", href: "#our-story" },
@@ -87,7 +87,7 @@ export default function Navbar() {
         }}
         aria-label="Main Navigation"
       >
-        {/* ── Logo ── */}
+        {/* ── Official Brand Logo ── */}
         <a
           href="#hero"
           onClick={(e) => handleNav(e, "#hero")}
@@ -101,9 +101,9 @@ export default function Navbar() {
           aria-label="Enjoyeat Makhana Home"
         >
           <img
-            src={lotus}
-            alt="Enjoyeat Lotus Logo"
-            style={{ width: 44, height: 44, objectFit: "contain" }}
+            src={officialLogo}
+            alt="Enjoyeat Official Logo"
+            style={{ width: 48, height: 48, objectFit: "contain" }}
           />
           <div
             style={{
@@ -114,10 +114,10 @@ export default function Navbar() {
           >
             <div
               style={{
-                fontSize: 17,
-                fontWeight: 600,
-                letterSpacing: "0.12em",
-                color: "#9a7b44",
+                fontSize: 18,
+                fontWeight: 700,
+                letterSpacing: "0.1em",
+                color: "#1E3B2B",
                 textTransform: "uppercase",
               }}
             >
@@ -125,10 +125,10 @@ export default function Navbar() {
             </div>
             <div
               style={{
-                fontSize: 11.5,
-                fontWeight: 500,
-                letterSpacing: "0.2em",
-                color: "#7A6F55",
+                fontSize: 11,
+                fontWeight: 600,
+                letterSpacing: "0.18em",
+                color: "#A25F27",
                 textTransform: "uppercase",
                 marginTop: 1,
               }}
