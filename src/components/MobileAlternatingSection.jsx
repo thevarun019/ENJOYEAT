@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { useReducedMotionSafe } from '../hooks/useReducedMotionSafe';
+import React from "react";
+import { motion } from "framer-motion";
+import { useReducedMotionSafe } from "../hooks/useReducedMotionSafe";
 
 /**
  * MobileAlternatingSection:
@@ -13,12 +13,12 @@ import { useReducedMotionSafe } from '../hooks/useReducedMotionSafe';
  */
 export default function MobileAlternatingSection({
   children,
-  direction = 'right',
+  direction = "right",
   id,
-  className = '',
+  className = "",
 }) {
   const reducedMotion = useReducedMotionSafe();
-  const isFromRight = direction === 'right';
+  const isFromRight = direction === "right";
   const initialX = isFromRight ? 45 : -45;
 
   return (
@@ -43,7 +43,7 @@ export default function MobileAlternatingSection({
       }}
       viewport={{ once: true, amount: 0.12 }}
       transition={{
-        type: 'spring',
+        type: "spring",
         stiffness: 70,
         damping: 17,
         mass: 0.85,
@@ -54,4 +54,3 @@ export default function MobileAlternatingSection({
     </motion.div>
   );
 }
-
