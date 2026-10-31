@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useReducedMotionSafe } from './hooks/useReducedMotionSafe';
-import pouchGreen from './assets/hero/pouchGreen.png';
-import pouchGold from './assets/hero/pouchGold.png';
-import pouchKraft from './assets/hero/pouchKraft.png';
+import pouchPeriPeri from './assets/hero/pouchPeriPeri.png';
+import pouchRawMakhana from './assets/hero/pouchRawMakhana.png';
+import pouchTangyTomato from './assets/hero/pouchTangyTomato.png';
 import el_bigL from './assets/hero/el_bigL.png';
 import el_bigR from './assets/hero/el_bigR.png';
 import el_m1 from './assets/hero/el_m1.png';
@@ -281,7 +281,7 @@ export default function HeroSection() {
             pointerEvents: isExiting ? 'none' : 'auto',
           }}
         >
-          {/* Left Green Pouch */}
+          {/* Left Peri Peri Pouch */}
           <motion.div
             style={{
               position: 'absolute',
@@ -295,7 +295,7 @@ export default function HeroSection() {
           >
             <motion.div
               style={{
-                ...boxD(313.5, 270, 131, 186),
+                ...boxD(313.5, 260, 131, 196),
                 zIndex: 10,
                 cursor: 'pointer',
                 pointerEvents: 'auto',
@@ -308,15 +308,15 @@ export default function HeroSection() {
               whileHover={{ scale: 1.08, rotate: 0, rotateY: 15 }}
             >
               <img
-                src={pouchGreen}
-                alt="Enjoyeat Salted Makhana"
+                src={pouchPeriPeri}
+                alt="Enjoyeat Peri Peri Makhana"
                 draggable={false}
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </motion.div>
           </motion.div>
 
-          {/* Center Gold Pouch */}
+          {/* Center Flagship Raw Makhana Pouch */}
           <motion.div
             style={{
               position: 'absolute',
@@ -330,7 +330,7 @@ export default function HeroSection() {
           >
             <motion.div
               style={{
-                ...boxD(445, 245, 136, 211),
+                ...boxD(445, 235, 136, 221),
                 zIndex: 20,
                 cursor: 'pointer',
                 pointerEvents: 'auto',
@@ -343,15 +343,15 @@ export default function HeroSection() {
               whileHover={{ scale: 1.1, rotateY: 12 }}
             >
               <img
-                src={pouchGold}
-                alt="Enjoyeat Sattvik Makhana"
+                src={pouchRawMakhana}
+                alt="Enjoyeat Premium Raw Makhana"
                 draggable={false}
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
             </motion.div>
           </motion.div>
 
-          {/* Right Kraft Pouch */}
+          {/* Right Tangy Tomato Pouch */}
           <motion.div
             style={{
               position: 'absolute',
@@ -365,7 +365,7 @@ export default function HeroSection() {
           >
             <motion.div
               style={{
-                ...boxD(587.5, 273, 127.5, 183),
+                ...boxD(587.5, 263, 127.5, 193),
                 zIndex: 10,
                 cursor: 'pointer',
                 pointerEvents: 'auto',
@@ -377,8 +377,8 @@ export default function HeroSection() {
               whileHover={{ scale: 1.08, rotate: 0, rotateY: -15 }}
             >
               <img
-                src={pouchKraft}
-                alt="Enjoyeat Classic Makhana"
+                src={pouchTangyTomato}
+                alt="Enjoyeat Tangy Tomato Makhana"
                 draggable={false}
                 style={{ width: '100%', height: '100%', objectFit: 'contain' }}
               />
@@ -613,10 +613,10 @@ export default function HeroSection() {
             }}
           />
 
-          {/* Left Green Pouch */}
+          {/* Left Peri Peri Pouch */}
           <motion.div
             style={{
-              ...boxM(25, 270, 140, 200),
+              ...boxM(25, 260, 140, 210),
               zIndex: 10,
               transform: 'rotate(-8deg)',
               pointerEvents: 'auto',
@@ -627,17 +627,17 @@ export default function HeroSection() {
             transition={{ type: 'spring', stiffness: 75, damping: 14, delay: 0.15 }}
           >
             <img
-              src={pouchGreen}
-              alt="Enjoyeat Salted Makhana"
+              src={pouchPeriPeri}
+              alt="Enjoyeat Peri Peri Makhana"
               draggable={false}
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
           </motion.div>
 
-          {/* Center Gold Pouch (Hero Flagship) */}
+          {/* Center Flagship Raw Makhana Pouch */}
           <motion.div
             style={{
-              ...boxM(155, 230, 170, 245),
+              ...boxM(155, 220, 170, 255),
               zIndex: 20,
               pointerEvents: 'auto',
             }}
@@ -647,17 +647,17 @@ export default function HeroSection() {
             transition={{ type: 'spring', stiffness: 80, damping: 13, delay: 0.05 }}
           >
             <img
-              src={pouchGold}
-              alt="Enjoyeat Sattvik Makhana"
+              src={pouchRawMakhana}
+              alt="Enjoyeat Premium Raw Makhana"
               draggable={false}
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />
           </motion.div>
 
-          {/* Right Kraft Pouch */}
+          {/* Right Tangy Tomato Pouch */}
           <motion.div
             style={{
-              ...boxM(315, 270, 140, 200),
+              ...boxM(315, 260, 140, 210),
               zIndex: 10,
               transform: 'rotate(8deg)',
               pointerEvents: 'auto',
@@ -668,8 +668,8 @@ export default function HeroSection() {
             transition={{ type: 'spring', stiffness: 75, damping: 14, delay: 0.22 }}
           >
             <img
-              src={pouchKraft}
-              alt="Enjoyeat Classic Makhana"
+              src={pouchTangyTomato}
+              alt="Enjoyeat Tangy Tomato Makhana"
               draggable={false}
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
             />

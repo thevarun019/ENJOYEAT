@@ -178,11 +178,11 @@ export default function ChooseCrunchPage() {
             className="abs fl drop-shadow-[0_20px_25px_rgba(0,0,0,0.25)]"
             style={posD(250, 630, 340)}
             src={leftPouch}
-            alt="Premium raw makhana pouch"
+            alt="EnjoyEat Peri Peri Makhana pouch"
             draggable={false}
           />
           <Fit x={180} y={1010} w={480} size={45} className="ttl">
-            PREMIUM RAW MAKHANA
+            PERI PERI MAKHANA
           </Fit>
           <button
             className="abs soon"
@@ -517,7 +517,7 @@ export default function ChooseCrunchPage() {
                 lineHeight: 1.2,
               }}
             >
-              PREMIUM RAW MAKHANA
+              PERI PERI MAKHANA
             </span>
             <span
               style={{
@@ -526,7 +526,7 @@ export default function ChooseCrunchPage() {
                 fontFamily: "Inter, sans-serif",
               }}
             >
-              Sizes: 100g | 500g | 1kg
+              Spicy | Bold | Flavorful • Net Wt 150g
             </span>
             <button
               disabled
